@@ -11,11 +11,13 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.11.3",
+    "@tanstack/vue-table": "^8.21.3",
     "@vueuse/core": "^14.2.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-vue-next": "^0.575.0",
     "nuxt": "^4.3.1",
+    "nuxt-mongoose": "^1.0.6",
     "reka-ui": "^2.8.2",
     "shadcn-nuxt": "^2.4.3",
     "tailwind-merge": "^3.5.0",
