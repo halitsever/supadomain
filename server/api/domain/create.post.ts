@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
     try {
         const rdapQuery = await executeRdapQuery(url);
 
-        if (!rdapQuery.success) return { success: false, message: 'Failed to retrieve RDAP data' };
+        if (!rdapQuery.success) return { success: false, message: "Failed to retrieve RDAP data" };
 
         const domain = new Domain({
             url,
@@ -17,13 +17,12 @@ export default defineEventHandler(async (event) => {
             lastUpdate: rdapQuery.lastUpdate ? new Date(rdapQuery.lastUpdate) : null,
             lastUpdatedInRdap: rdapQuery.lastUpdatedInRdap ? new Date(rdapQuery.lastUpdatedInRdap) : null,
             nameservers: rdapQuery.nameservers || [],
-            notifications: true
+            notifications: true,
         });
         await domain.save();
-        return { success: true, message: 'Domain added successfully' };
-    }
-    catch (error) {
-        logger.error('Error adding domain:', error);
-        return { success: false, message: 'Failed to add domain' };
+        return { success: true, message: "Domain added successfully" };
+    } catch (error) {
+        logger.error("Error adding domain:", error);
+        return { success: false, message: "Failed to add domain" };
     }
 });

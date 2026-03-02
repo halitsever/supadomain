@@ -1,14 +1,6 @@
 <script setup lang="ts">
 import Button from "~/components/ui/button/Button.vue";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Trash } from "lucide-vue-next";
 import type { Domain } from "../types/domain.interface";
@@ -20,6 +12,7 @@ definePageMeta({
 
 const modalStatus = ref(false);
 const newDomain = ref("");
+const addButtonClicked = ref(false);
 
 const domains: Ref<Domain[]> = ref([]);
 
@@ -44,6 +37,8 @@ const addNewDomain = async () => {
       description: "Please enter a valid domain (e.g., www.example.com)",
     });
 
+  addButtonClicked.value = true;
+
   const { data } = await useFetch("/api/domain/create", {
     method: "POST",
     body: {
@@ -57,11 +52,11 @@ const addNewDomain = async () => {
     });
   else
     toast.error("Failed to create domain", {
-      description:
-        data?.value?.message || "An error occurred while creating the domain",
+      description: data?.value?.message || "An error occurred while creating the domain",
     });
 
   await listDomains();
+  addButtonClicked.value = false;
   modalStatus.value = false;
 };
 
@@ -86,8 +81,7 @@ async function removeDomain(url: string) {
 }
 
 const validateDomain = (url: string): boolean => {
-  const domainPattern =
-    /^(?!:\/\/)([a-zA-Z0-9-_]+\.)*[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,11}?$/;
+  const domainPattern = /^(?!:\/\/)([a-zA-Z0-9-_]+\.)*[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,11}?$/;
   return domainPattern.test(url);
 };
 
@@ -109,18 +103,14 @@ await listDomains();
             <DialogDescription>
               <Label for="domain">Domain URL</Label>
 
-              <Input
-                v-model="newDomain"
-                id="domain"
-                type="text"
-                placeholder="www.example.com"
-              />
+              <Input v-model="newDomain" id="domain" type="text" placeholder="www.example.com" />
             </DialogDescription>
           </DialogHeader>
 
           <DialogFooter>
-            <Button type="submit" @click="addNewDomain()" class="cursor-pointer"
-              >Add</Button
+            <Button :disabled="addButtonClicked" type="submit" @click="addNewDomain()" class="cursor-pointer">
+              <Spinner v-if="addButtonClicked" />
+              Add</Button
             >
           </DialogFooter>
         </DialogContent>
@@ -146,29 +136,17 @@ await listDomains();
             <TableCell>
               <div>
                 <div>
-                  {{
-                    domain.expireTime
-                      ? new Date(domain.expireTime).toLocaleDateString()
-                      : "N/A"
-                  }}
+                  {{ domain.expireTime ? new Date(domain.expireTime).toLocaleDateString() : "N/A" }}
                 </div>
               </div>
             </TableCell>
             <TableCell>
-              <Badge
-                :variant="domain.notifications ? 'default' : 'destructive'"
-              >
+              <Badge :variant="domain.notifications ? 'default' : 'destructive'">
                 {{ domain.notifications ? "Enabled" : "Disabled" }}
               </Badge>
             </TableCell>
             <TableCell class="text-right">
-              <Button
-                class="cursor-pointer"
-                variant="secondary"
-                size="icon"
-                @click="removeDomain(domain.url)"
-                ><Trash class="size-4"
-              /></Button>
+              <Button class="cursor-pointer" variant="secondary" size="icon" @click="removeDomain(domain.url)"><Trash class="size-4" /></Button>
             </TableCell>
           </TableRow>
         </TableBody>
