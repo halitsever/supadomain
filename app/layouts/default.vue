@@ -4,6 +4,9 @@ export const description = "A sidebar with submenus.";
 </script>
 
 <script setup lang="ts">
+import { Toaster } from "@/components/ui/sonner";
+import "vue-sonner/style.css";
+
 import AppSidebar from "@/components/AppSidebar.vue";
 import {
   Breadcrumb,
@@ -41,6 +44,7 @@ const pageTitle = route?.meta?.title || "Empty Page";
         </div>
       </header>
       <div class="flex-1"><slot></slot></div>
+      <Toaster :rich-colors="true" />
     </SidebarInset>
   </SidebarProvider>
 </template>

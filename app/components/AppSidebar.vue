@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { SidebarProps } from "@/components/ui/sidebar";
 
-import { MonitorDot } from "lucide-vue-next";
+import { Shield } from "lucide-vue-next";
 import {
   Sidebar,
   SidebarContent,
@@ -10,9 +10,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { useMenuStore } from "~/stores/menu.store";
@@ -36,7 +33,7 @@ const data = {
               <div
                 class="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground"
               >
-                <MonitorDot class="size-4" />
+                <Shield class="size-4" />
               </div>
               <div class="flex flex-col gap-0.5 leading-none">
                 <span class="font-medium">Track My Domain</span>
@@ -55,16 +52,6 @@ const data = {
                 {{ item.title }}
               </a>
             </SidebarMenuButton>
-            <SidebarMenuSub v-if="item.items.length">
-              <SidebarMenuSubItem
-                v-for="childItem in item.items"
-                :key="childItem.title"
-              >
-                <SidebarMenuSubButton as-child>
-                  <a :href="childItem.url">{{ childItem.title }}</a>
-                </SidebarMenuSubButton>
-              </SidebarMenuSubItem>
-            </SidebarMenuSub>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarGroup>
