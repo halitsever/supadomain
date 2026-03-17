@@ -1,7 +1,7 @@
 import { defineMongooseModel } from '#nuxt/mongoose'
 
 export const User = defineMongooseModel('User', {
-    username: {
+    email: {
         type: 'string',
         required: true,
         unique: true,

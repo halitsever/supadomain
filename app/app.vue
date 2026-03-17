@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useSeoMeta({
-  title: "Track My Domain",
+  title: "Supadomain",
 });
 </script>
 

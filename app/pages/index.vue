@@ -7,6 +7,7 @@ import type { Domain } from "../types/domain.interface";
 import { toast } from "vue-sonner";
 
 definePageMeta({
+  middleware: "auth",
   title: "Domains",
 });
 
@@ -80,6 +81,12 @@ async function removeDomain(url: string) {
   });
 }
 
+/**
+ * Validates the format of a domain URL using a regular expression pattern.
+ * The pattern checks for a valid domain structure, including subdomains and top-level domains.
+ * @param url - The domain URL to be validated.
+ * @returns A boolean value indicating whether the domain URL is valid (true) or not (false).
+ */
 const validateDomain = (url: string): boolean => {
   const domainPattern = /^(?!:\/\/)([a-zA-Z0-9-_]+\.)*[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,11}?$/;
   return domainPattern.test(url);

@@ -3,27 +3,24 @@ import type { SidebarProps } from "@/components/ui/sidebar";
 
 import { ChevronUp, LogOut, Shield } from "lucide-vue-next";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarRail } from "@/components/ui/sidebar";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useMenuStore } from "~/stores/menu.store";
 
 const props = defineProps<SidebarProps>();
-const router = useRouter();
 
 const menuStore = useMenuStore();
-
-const user = {
-  name: "John Doe",
-  email: "john@example.com",
-  avatar: "https://github.com/shadcn.png",
-};
+const { user } = useUserSession();
+const { fetch: refreshSession } = useUserSession();
 
 const data = {
   navMain: menuStore.list(),
 };
 
-function handleLogout() {
-  router.push("/login");
+async function handleLogout() {
+  await $fetch("/api/auth/logout", { method: "POST" });
+  await refreshSession();
+  await navigateTo("/login");
 }
 </script>
 
@@ -38,7 +35,7 @@ function handleLogout() {
                 <Shield class="size-4" />
               </div>
               <div class="flex flex-col gap-0.5 leading-none">
-                <span class="font-medium">Track My Domain</span>
+                <span class="font-medium">Supadomain</span>
               </div>
             </a>
           </SidebarMenuButton>
@@ -65,19 +62,12 @@ function handleLogout() {
             <DropdownMenuTrigger as-child>
               <SidebarMenuButton size="lg">
                 <Avatar class="h-8 w-8 rounded-lg">
-                  <AvatarImage :src="user.avatar" :alt="user.name" />
                   <AvatarFallback class="rounded-lg">
-                    {{
-                      user.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")
-                    }}
+                    {{ user?.email?.charAt(0).toUpperCase() ?? "U" }}
                   </AvatarFallback>
                 </Avatar>
                 <div class="grid flex-1 text-left text-sm leading-tight">
-                  <span class="truncate font-medium">{{ user.name }}</span>
-                  <span class="truncate text-xs text-muted-foreground">{{ user.email }}</span>
+                  <span class="truncate text-xs text-muted-foreground">{{ user?.email }}</span>
                 </div>
                 <ChevronUp class="ml-auto size-4" />
               </SidebarMenuButton>
