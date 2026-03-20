@@ -24,5 +24,4 @@ export default defineNuxtConfig({
      */
     componentDir: '@/components/ui'
   }
-
 })

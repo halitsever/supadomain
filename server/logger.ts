@@ -5,8 +5,4 @@ const logger = logmoji({
     disablePrefixText: true
 });
 
-
-
-
-
-export default logger;
+export default logger.createContext('[Supadomain]');

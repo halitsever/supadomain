@@ -1,6 +1,9 @@
+import authValidation from "~~/server/auth-check";
 import { Notifications } from "../../../models/notifications";
 
 export default defineEventHandler(async (event) => {
+    authValidation(event);
+
     try {
         const options = await readBody(event);
 

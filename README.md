@@ -1,75 +1,47 @@
-# Nuxt Minimal Starter
+<p align="center" class="logo-section">
+<img src="./assets/Supadomain Logo.png" height="80" width="80"/>
+</br>
+<img src="https://halitsever-api.vercel.app/api/repo-title?title=Supadomain">
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+<p align="center">
+🔗 Self hosted domain monitor<br>
+<br/>
+<br/>
+<img src="https://img.shields.io/github/sponsors/halitsever"/>
+</p>
+<p align="center">
+<a align="center" href="#">Documentation</a>
+  </p>
+</p>
 
-## Setup
+<p align="center">
+<img src="https://halitsever-api.vercel.app/api/details"/>
+</p>
 
-Make sure to install dependencies:
+- 🧑‍💻 [**TODO**](#) - update docs
 
-```bash
-# npm
-npm install
+<p align="center" >
+<img src="https://halitsever-api.vercel.app/api/installation"/>
+</p>
 
-# pnpm
-pnpm install
+<p align="center">
+<img src="/assets/screenshot.png"/>
+</p>
 
-# yarn
-yarn install
+Todo: update docs
 
-# bun
-bun install
-```
+<p align="center" href="https://github.com/halitsever/repo_name/issues">
+<img src="https://halitsever-api.vercel.app/api/issue"/>
+</p>
 
-## Development Server
+<p align="center">
+<img src="https://halitsever-api.vercel.app/api/sponsor"/>
+</p>
 
-Start the development server on `http://localhost:3000`:
+<p align="center">
+<img src="https://halitsever-api.vercel.app/api/license"/>
+</p>
 
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+<p align="center">
+  ...
+</p>

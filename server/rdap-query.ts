@@ -1,16 +1,20 @@
 import logger from "./logger";
 
-import { RdapDomainResponse, RdapEvent, RdapNameserver } from "./rdap-response.type";
+import type { RdapDomainResponse, RdapEvent, RdapNameserver } from "./rdap-response.type";
 
-const executeRdapQuery = async (domain: string) => {
+type RdapQueryResult =
+    | { success: true; expirationDate: string | null; registrationDate: string | null; lastUpdate: string | null; lastUpdatedInRdap: string | null; nameservers: string[] }
+    | { success: false; message: string };
+
+const executeRdapQuery = async (domain: string): Promise<RdapQueryResult> => {
     try {
-        const response: RdapDomainResponse = await $fetch(`https://rdap.org/domain/${domain}`);
+        const response = await $fetch<RdapDomainResponse>(`https://rdap.org/domain/${domain}`);
 
         /**
          * Extract relevant data from the RDAP response. 
          */
         const rdapData = {
-            success: true,
+            success: true as const,
             expirationDate: response?.events?.find((event: RdapEvent) => event.eventAction === 'expiration')?.eventDate || null,
             registrationDate: response?.events?.find((event: RdapEvent) => event.eventAction === 'registration')?.eventDate || null,
             lastUpdate: response?.events?.find((event: RdapEvent) => event.eventAction === 'last changed')?.eventDate || null,

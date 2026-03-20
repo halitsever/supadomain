@@ -3,12 +3,23 @@
   <!-- Generator: Adobe Illustrator 29.8.4, SVG Export Plug-In . SVG Version: 2.1.1 Build 6)  -->
   <defs>
     <style>
+
       .st0 {
         fill: none;
-        stroke: #000;
+        stroke: #ffffff;
         stroke-miterlimit: 10;
         stroke-width: 3.8px;
       }
+
+      rect {
+        fill: #fff !important;
+        stroke: #fff !important;
+      }
+
+path {
+  fill: #fff !important;
+  stroke: #fff !important;
+}
     </style>
   </defs>
   <g>

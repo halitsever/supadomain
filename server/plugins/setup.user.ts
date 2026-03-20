@@ -11,7 +11,7 @@ export default defineNitroPlugin(async () => {
   const definedPassword = process.env.ADMIN_PASSWORD;
 
 
-  const email = process.env.ADMIN_EMAIL || 'admin@trackmydomain.org'
+  const email = process.env.ADMIN_EMAIL || 'admin@supadomain.com'
   const password = definedPassword || randomBytes(32).toString('hex');
 
   const hashedPassword = await bcrypt.hash(password, 12)

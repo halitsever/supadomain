@@ -1,7 +1,10 @@
 import logger from "~~/server/logger";
 import type { Domain as DomainType } from "../../types/domain.interface"
 import { Domain } from "~~/server/models/domain.schema";
+import authValidation from "~~/server/auth-check";
+
 export default defineEventHandler(async (event) => {
+    authValidation(event);
     try {
         const domains = await Domain.find().sort({ id: -1 }).exec();
         return domains.map((item) => ({

@@ -48,7 +48,7 @@ async function handleLogin() {
           <FieldGroup>
             <Field>
               <FieldLabel for="email"> Email </FieldLabel>
-              <Input id="email" v-model="email" type="email" placeholder="m@example.com" required />
+              <Input id="email" v-model="email" type="email" placeholder="example@supadomain.com" required />
             </Field>
             <Field>
               <div class="flex items-center">

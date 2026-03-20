@@ -1,10 +1,10 @@
 {
-  "name": "trackmydomain",
+  "name": "supadomain",
   "type": "module",
-  "private": true,
+  "version": "0.0.1",
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "nuxt dev --host",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -16,7 +16,7 @@
     "bcrypt": "^6.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "logmoji": "^1.1.6",
+    "logmoji": "^1.1.8",
     "lucide-vue-next": "^0.575.0",
     "nuxt": "^4.3.1",
     "nuxt-auth-utils": "^0.5.29",

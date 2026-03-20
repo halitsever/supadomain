@@ -1,13 +1,16 @@
+import authValidation from "~~/server/auth-check";
 import logger from "~~/server/logger";
 import { Domain } from "~~/server/models/domain.schema";
 import executeRdapQuery from "~~/server/rdap-query";
 
 export default defineEventHandler(async (event) => {
+    authValidation(event);
+
     const { url } = await readBody(event);
     try {
         const rdapQuery = await executeRdapQuery(url);
 
-        if (!rdapQuery.success) return { success: false, message: "Failed to retrieve RDAP data" };
+        if (!rdapQuery.success) return { success: false, message: "Failed to retrieve RDAP data, maybe the domain is already expired or does not exist?" };
 
         const domain = new Domain({
             url,
