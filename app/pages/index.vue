@@ -2,7 +2,8 @@
 import Button from "~/components/ui/button/Button.vue";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { Trash } from "lucide-vue-next";
+import { Trash, Pencil } from "lucide-vue-next";
+import { Switch } from "@/components/ui/switch";
 import type { Domain } from "../types/domain.interface";
 import { toast } from "vue-sonner";
 
@@ -14,6 +15,10 @@ definePageMeta({
 const modalStatus = ref(false);
 const newDomain = ref("");
 const addButtonClicked = ref(false);
+
+const editModalStatus = ref(false);
+const editingDomain = ref<Domain | null>(null);
+const editNotifications = ref(false);
 
 const domains: Ref<Domain[]> = ref([]);
 
@@ -66,6 +71,33 @@ const addNewDomain = async () => {
  * @param url - The URL of the domain to be removed.
  * @returns A promise that resolves when the domain has been removed successfully.
  */
+function openEditModal(domain: Domain) {
+  editingDomain.value = domain;
+  editNotifications.value = domain.notifications;
+  editModalStatus.value = true;
+}
+
+async function updateDomain() {
+  if (!editingDomain.value) return;
+
+  const { data } = await useFetch("/api/domain/update", {
+    method: "PUT",
+    body: {
+      url: editingDomain.value.url,
+      notifications: editNotifications.value,
+    },
+  });
+
+  if (data.value?.success) {
+    toast.success("Domain updated", { description: "Domain updated successfully" });
+  } else {
+    toast.error("Failed to update domain");
+  }
+
+  await listDomains();
+  editModalStatus.value = false;
+}
+
 async function removeDomain(url: string) {
   const { data } = await useFetch("/api/domain/remove", {
     method: "DELETE",
@@ -124,6 +156,22 @@ await listDomains();
       </Dialog>
     </div>
 
+    <Dialog v-model:open="editModalStatus">
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Edit Domain</DialogTitle>
+          <DialogDescription>{{ editingDomain?.url }}</DialogDescription>
+        </DialogHeader>
+        <div class="flex items-center gap-3 py-2">
+          <Switch :modelValue="editNotifications" @click="editNotifications = !editNotifications" id="edit-notifications" />
+          <Label for="edit-notifications">Notifications</Label>
+        </div>
+        <DialogFooter>
+          <Button @click="updateDomain()" class="cursor-pointer">Save</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+
     <div>
       <Table>
         <TableCaption>Total {{ domains.length }} domains listed</TableCaption>
@@ -152,7 +200,8 @@ await listDomains();
                 {{ domain.notifications ? "Enabled" : "Disabled" }}
               </Badge>
             </TableCell>
-            <TableCell class="text-right">
+            <TableCell class="text-right flex justify-end gap-2">
+              <Button class="cursor-pointer" variant="secondary" size="icon" @click="openEditModal(domain)"><Pencil class="size-4" /></Button>
               <Button class="cursor-pointer" variant="secondary" size="icon" @click="removeDomain(domain.url)"><Trash class="size-4" /></Button>
             </TableCell>
           </TableRow>
