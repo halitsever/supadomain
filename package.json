@@ -19,6 +19,7 @@
     "logmoji": "^1.1.8",
     "lucide-vue-next": "^0.575.0",
     "nuxt": "^4.3.1",
+    "nuxt-api-shield": "^0.10.0",
     "nuxt-auth-utils": "^0.5.29",
     "nuxt-mongoose": "^1.0.6",
     "reka-ui": "^2.8.2",

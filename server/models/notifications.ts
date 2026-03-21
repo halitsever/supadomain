@@ -1,14 +1,19 @@
 import { defineMongooseModel } from '#nuxt/mongoose'
 
-export const Notifications = defineMongooseModel('Notifications', {
+interface INotifications {
+    service: string
+    credentials?: string
+}
+
+export const Notifications = defineMongooseModel<INotifications>('Notifications', {
     service: {
-        type: 'string',
+        type: String,
         required: true,
         unique: true,
     },
     credentials: {
+        type: String,
     }
-
 }, {
 
 }, (schema) => {

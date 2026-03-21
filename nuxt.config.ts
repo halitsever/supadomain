@@ -7,8 +7,27 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
     'nuxt-mongoose',
-    'nuxt-auth-utils'
+    'nuxt-auth-utils',
+    'nuxt-api-shield'
   ],
+
+  nuxtApiShield: {
+    limit: {
+      max: 12,
+      duration: 108,
+      ban: 3600,
+    },
+    delayOnBan: true,
+    errorMessage: "Too Many Requests",
+    retryAfterHeader: false,
+    log: {
+      path: "logs",
+      attempts: 100,
+    },
+    routes: ["/api/auth/login"],
+  },
+
+
 
   shadcn: {
     /**

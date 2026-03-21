@@ -1,6 +1,9 @@
+import checkAuth from "~~/server/auth-check";
 import { Domain } from "../../models/domain.schema";
 
 export default defineEventHandler(async (event) => {
+    checkAuth(event);
+
     const { url, notifications } = await readBody(event);
 
     if (!url) {

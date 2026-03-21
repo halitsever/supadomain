@@ -1,18 +1,45 @@
 import { defineMongooseModel } from '#nuxt/mongoose'
 
-export const Domain = defineMongooseModel('Domain', {
+interface IDomain {
+    url: string
+    lastChecked?: Date
+    expireTime?: Date
+    notifications?: boolean
+    registrationDate?: Date
+    lastUpdate?: Date
+    lastUpdatedInRdap?: Date
+    nameservers?: string[]
+}
+
+export const Domain = defineMongooseModel<IDomain>('Domain', {
     url: {
         type: 'string',
         required: true,
         unique: true,
     },
-    lastChecked: {},
-    expireTime: {},
-    notifications: {},
-    registrationDate: {},
-    lastUpdate: {},
-    lastUpdatedInRdap: {},
-    nameservers: {}
+    lastChecked: {
+        type: Date,
+    },
+    expireTime: {
+        type: Date,
+    },
+    notifications: {
+        type: Boolean,
+        default: true
+    },
+    registrationDate: {
+        type: Date,
+    },
+    lastUpdate: {
+        type: Date,
+    },
+    lastUpdatedInRdap: {
+        type: Date,
+    },
+    nameservers: {
+        type: [String],
+        default: [],
+    }
 }, {
 
 }, (schema) => {
