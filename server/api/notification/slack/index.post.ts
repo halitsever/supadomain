@@ -1,8 +1,9 @@
-import authValidation from "~~/server/auth-check";
+import checkAuth from "~~/server/auth-check";
 import { Notifications } from "../../../models/notifications";
+import logger from "~~/server/logger";
 
 export default defineEventHandler(async (event) => {
-    authValidation(event);
+    checkAuth(event);
 
     try {
         const options = await readBody(event);
@@ -18,7 +19,7 @@ export default defineEventHandler(async (event) => {
         return { success: true, message: 'Slack notification settings saved successfully' };
     }
     catch (error) {
-        console.error('Error saving Slack notification settings:', error);
+        logger.error('Error saving Slack notification settings:', error);
         return { success: false, message: 'Failed to save Slack notification settings' };
     }
 });

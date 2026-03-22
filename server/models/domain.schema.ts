@@ -13,7 +13,7 @@ interface IDomain {
 
 export const Domain = defineMongooseModel<IDomain>('Domain', {
     url: {
-        type: 'string',
+        type: String,
         required: true,
         unique: true,
     },

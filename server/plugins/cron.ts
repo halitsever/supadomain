@@ -1,5 +1,5 @@
-
-import { Domain } from '../models/domain.schema'
+import { sendSlackNotification } from '../utils/notifications/slack';
+import { Domain } from '../models/domain.schema';
 
 export default defineNitroPlugin(() => {
     setInterval(async () => {
@@ -18,7 +18,6 @@ export default defineNitroPlugin(() => {
                     ? `${Math.abs(diffDays).toFixed(0)} expired ago`
                     : `${diffDays.toFixed(0)} days until expiration`
                 await sendSlackNotification(domain.url, label)
-
             }
 
 

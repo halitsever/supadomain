@@ -1,9 +1,9 @@
-import authValidation from "~~/server/auth-check";
+import checkAuth from "~~/server/auth-check";
 import logger from "~~/server/logger";
 import { Domain } from "~~/server/models/domain.schema";
 
 export default defineEventHandler(async (event) => {
-    authValidation(event);
+    checkAuth(event);
 
     const { url } = await readBody(event);
     try {
