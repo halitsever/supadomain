@@ -45,8 +45,10 @@ const addNewDomain = async () => {
 
 <template>
   <Dialog v-model:open="modalStatus">
-    <DialogTrigger>
-      <Button>Add new domain</Button>
+    <DialogTrigger as-child>
+      <Button size="sm" class="cursor-pointer">
+        <span class="mr-1 text-[13px] font-semibold">+</span> Add domain
+      </Button>
     </DialogTrigger>
     <DialogContent>
       <DialogHeader>

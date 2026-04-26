@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
     checkAuth(event);
 
     try {
-        const { url, notifications } = await readBody(event);
+        const { url, notifications, notifyDaysBefore } = await readBody(event);
 
         if (!url) {
             return { success: false, message: "Domain URL is required" };
@@ -19,6 +19,7 @@ export default defineEventHandler(async (event) => {
         }
 
         if (typeof notifications === "boolean") domain.notifications = notifications;
+        if (Array.isArray(notifyDaysBefore)) domain.notifyDaysBefore = notifyDaysBefore;
 
         await domain.save();
 

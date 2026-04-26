@@ -2,9 +2,12 @@ import { defineMongooseModel } from '#nuxt/mongoose'
 
 interface IDomain {
     url: string
+    createdAt?: Date
     lastChecked?: Date
     expireTime?: Date
     notifications?: boolean
+    notifyDaysBefore?: number[]
+    lastNotifiedDays?: number | null
     registrationDate?: Date
     lastUpdate?: Date
     lastUpdatedInRdap?: Date
@@ -27,6 +30,14 @@ export const Domain = defineMongooseModel<IDomain>('Domain', {
         type: Boolean,
         default: true
     },
+    notifyDaysBefore: {
+        type: [Number],
+        default: [30, 7, 1],
+    },
+    lastNotifiedDays: {
+        type: Number,
+        default: null,
+    },
     registrationDate: {
         type: Date,
     },
@@ -41,7 +52,7 @@ export const Domain = defineMongooseModel<IDomain>('Domain', {
         default: [],
     }
 }, {
-
+    timestamps: true,
 }, (schema) => {
 
 })

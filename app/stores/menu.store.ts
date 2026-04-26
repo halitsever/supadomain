@@ -5,11 +5,16 @@ export const useMenuStore = defineStore('menuStore', {
         list() {
             const menuItems = [{
                 id: 1,
+                title: 'Dashboard',
+                url: '/dashboard'
+            },
+            {
+                id: 2,
                 title: 'Domains',
                 url: '/'
             },
             {
-                id: 2,
+                id: 3,
                 title: 'Notifications',
                 url: '/notifications'
             }];

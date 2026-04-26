@@ -4,6 +4,7 @@ export interface Domain {
     lastChecked: string | null;
     expireTime: string | null;
     notifications: boolean;
+    notifyDaysBefore: number[];
     lastUpdated: string | null;
     lastRegistered: string | null;
     lastChanged: string | null;

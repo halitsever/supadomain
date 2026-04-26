@@ -13,6 +13,7 @@ export default defineEventHandler(async (event) => {
             lastChecked: item.lastChecked ?? null,
             expireTime: item.expireTime ?? null,
             notifications: item.notifications ?? false,
+            notifyDaysBefore: item.notifyDaysBefore ?? [30, 7, 1],
         })) as DomainType[];
     }
     catch (error) {

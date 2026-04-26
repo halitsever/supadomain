@@ -2,6 +2,7 @@ import checkAuth from "~~/server/auth-check";
 import logger from "~~/server/logger";
 import { Domain } from "~~/server/models/domain.schema";
 import executeRdapQuery from "~~/server/rdap-query";
+import { logActivity } from "~~/server/utils/activity";
 
 export default defineEventHandler(async (event) => {
     checkAuth(event);
@@ -23,6 +24,7 @@ export default defineEventHandler(async (event) => {
             notifications: true,
         });
         await domain.save();
+        await logActivity(url, 'added', `${url} added to portfolio`);
         return { success: true, message: "Domain added successfully" };
     } catch (error) {
         logger.error("Error adding domain:", error);

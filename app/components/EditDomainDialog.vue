@@ -15,13 +15,25 @@ const emit = defineEmits<{
 }>();
 
 const editNotifications = ref(false);
+const editNotifyDays = ref<number[]>([]);
+
+const THRESHOLD_OPTIONS = [30, 7, 1] as const;
 
 watch(
   () => props.domain,
   (domain) => {
-    if (domain) editNotifications.value = domain.notifications;
+    if (domain) {
+      editNotifications.value = domain.notifications;
+      editNotifyDays.value = [...(domain.notifyDaysBefore ?? [30, 7, 1])];
+    }
   }
 );
+
+function toggleThreshold(days: number) {
+  const idx = editNotifyDays.value.indexOf(days);
+  if (idx === -1) editNotifyDays.value.push(days);
+  else editNotifyDays.value.splice(idx, 1);
+}
 
 const updateDomain = async () => {
   if (!props.domain) return;
@@ -31,6 +43,7 @@ const updateDomain = async () => {
     body: {
       url: props.domain.url,
       notifications: editNotifications.value,
+      notifyDaysBefore: editNotifyDays.value,
     },
   });
 
@@ -52,10 +65,33 @@ const updateDomain = async () => {
         <DialogTitle>Edit Domain</DialogTitle>
         <DialogDescription>{{ domain?.url }}</DialogDescription>
       </DialogHeader>
-      <div class="flex items-center gap-3 py-2">
-        <Switch :modelValue="editNotifications" @click="editNotifications = !editNotifications" id="edit-notifications" />
-        <Label for="edit-notifications">Notifications</Label>
+
+      <div class="flex flex-col gap-4 py-2">
+        <div class="flex items-center gap-3">
+          <Switch :modelValue="editNotifications" @click="editNotifications = !editNotifications" id="edit-notifications" />
+          <Label for="edit-notifications">Notifications</Label>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <Label class="text-sm text-muted-foreground">Notify me before expiration</Label>
+          <div class="flex gap-3">
+            <label
+              v-for="days in THRESHOLD_OPTIONS"
+              :key="days"
+              class="flex items-center gap-1.5 cursor-pointer select-none"
+            >
+              <input
+                type="checkbox"
+                :checked="editNotifyDays.includes(days)"
+                @change="toggleThreshold(days)"
+                class="accent-primary"
+              />
+              <span class="text-sm">{{ days }} days</span>
+            </label>
+          </div>
+        </div>
       </div>
+
       <DialogFooter>
         <Button @click="updateDomain()" class="cursor-pointer">Save</Button>
       </DialogFooter>
