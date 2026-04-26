@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {
   Globe, AlertTriangle, AlertCircle, Clock, CheckCircle2, HelpCircle,
-  RefreshCw, ChevronRight, Bell, RefreshCcw,
+  RefreshCw, ChevronRight, Bell, RefreshCcw, Plus,
 } from "lucide-vue-next";
 import { getDomainStatus, getDaysLeft, statusConfig } from "~/composables/useDomainStatus";
 import type { ActivityKind } from "~/types/activity.interface";
