@@ -14,6 +14,12 @@ Self-hosted domain expiry monitor<br>
 <img src="https://halitsever-api.vercel.app/api/details"/>
 </p>
 
+<p align="center">
+
+<img src="./assets/screenshot.png" alt="Supadomain Screenshot" />
+
+</p>
+
 - Track domain expiry dates via RDAP queries
 - Automatic hourly checks for all monitored domains
 - Slack webhook notifications (configurable days before expiry: 30, 7, 1)
