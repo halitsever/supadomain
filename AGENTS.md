@@ -10,7 +10,7 @@ Supadomain is a self-hosted domain expiry monitor (Nuxt 4, MongoDB) that checks 
 
 ## Gotchas
 
-- The admin account is seeded from `ADMIN_EMAIL` and `ADMIN_PASSWORD` (`server/plugins/setup.user.ts`), and only while the users collection is empty. `.env.example` still lists `SEED_EMAIL` and `SEED_PASSWORD`, which the code does not read. Without `ADMIN_PASSWORD`, a random password is printed to the server log on first boot.
+- The admin account is seeded from `ADMIN_EMAIL` and `ADMIN_PASSWORD` (`server/plugins/setup.user.ts`), and only while the users collection is empty. Without `ADMIN_PASSWORD`, a random password is printed to the server log on first boot.
 - `server/plugins/cron.ts` imports `croner`, which is not in package.json and resolves through `nitropack`. Add it as a direct dependency before relying on a new croner API.
 - `nuxt-api-shield` rate-limits `/api/auth/login` and writes its logs to `logs/`.
 - `app/components/ui/` holds shadcn-vue components configured by `components.json`. Generate new ones with the shadcn-vue CLI so they match.
