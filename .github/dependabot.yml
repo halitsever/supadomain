@@ -18,6 +18,9 @@ updates:
       # TypeScript 7 has no JS API, which @vue/compiler-sfc needs to resolve imported prop types.
       - dependency-name: "typescript"
         update-types: ["version-update:semver-major"]
+      # nuxt-auth-utils 0.6 replaces NUXT_SESSION_PASSWORD with NUXT_APP_SECRET and logs every user out.
+      - dependency-name: "nuxt-auth-utils"
+        update-types: ["version-update:semver-minor"]
 
   - package-ecosystem: github-actions
     directory: /
