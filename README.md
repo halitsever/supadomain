@@ -1,12 +1,13 @@
 <p align="center">
-<img src="./assets/Supadomain Logo.png" height="80" width="80"/>
+<img src="./assets/Supadomain Logo.png" height="80" width="80" alt="Supadomain logo"/>
 </br>
 <img src="https://halitsever-api.vercel.app/api/repo-title?title=Supadomain">
 
 <p align="center">
-Self-hosted domain expiry monitor<br>
+Self-hosted domain expiry monitoring tool built with Nuxt, Vue and MongoDB. Tracks domain expiration dates over RDAP and sends Slack alerts before your domains expire.<br>
 <br/>
-<img src="https://img.shields.io/github/sponsors/halitsever"/>
+<img src="https://img.shields.io/github/sponsors/halitsever" alt="GitHub sponsors"/>
+<img src="https://img.shields.io/github/license/halitsever/supadomain" alt="License: MIT"/>
 </p>
 </p>
 
@@ -72,9 +73,18 @@ node .output/server/index.mjs
 </p>
 
 <p align="center">
+Found a bug or have an idea? Open an <a href="https://github.com/halitsever/supadomain/issues">issue</a>.<br/>
+Read the <a href=".github/CONTRIBUTING.md">contributing guide</a> before sending a pull request.
+</p>
+
+<p align="center">
 <img src="https://halitsever-api.vercel.app/api/sponsor"/>
 </p>
 
 <p align="center">
 <img src="https://halitsever-api.vercel.app/api/license"/>
+</p>
+
+<p align="center">
+Released under the <a href="LICENSE">MIT License</a>.
 </p>

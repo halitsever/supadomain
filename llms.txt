@@ -1,0 +1,19 @@
+# Supadomain
+
+> Supadomain is a self-hosted domain expiry monitoring tool built with Nuxt, Vue and MongoDB. It looks up domain expiration dates over RDAP every hour and sends Slack webhook alerts before domains expire.
+
+Run it from a clone: `npm install`, copy `.env.example` to `.env`, set `MONGODB_URI`, `NUXT_SESSION_PASSWORD`, `ADMIN_EMAIL` and `ADMIN_PASSWORD`, then `npm run build` and `node .output/server/index.mjs`. The admin account is created only on the first start against an empty database.
+
+## Docs
+
+- [README](https://github.com/halitsever/supadomain/blob/main/README.md): features, prerequisites, installation, environment variables and Slack notification setup
+- [RDAP lookup](https://github.com/halitsever/supadomain/blob/main/server/rdap-query.ts): how expiry dates are fetched over RDAP
+- [Hourly check](https://github.com/halitsever/supadomain/blob/main/server/plugins/cron.ts): the hourly job that compares expiry dates with alert thresholds and sends Slack messages
+- [Admin seeding](https://github.com/halitsever/supadomain/blob/main/server/plugins/setup.user.ts): how the first admin user is created from the environment
+- [Domain model](https://github.com/halitsever/supadomain/blob/main/server/models/domain.schema.ts): stored fields for each monitored domain, including notification thresholds
+
+## Optional
+
+- [Source](https://github.com/halitsever/supadomain): repository
+- [Example environment](https://github.com/halitsever/supadomain/blob/main/.env.example): sample .env file
+- [License](https://github.com/halitsever/supadomain/blob/main/LICENSE): MIT
