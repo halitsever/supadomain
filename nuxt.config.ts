@@ -25,6 +25,11 @@ export default defineNuxtConfig({
       attempts: 100,
     },
     routes: ["/api/auth/login"],
+    // The app runs behind one reverse proxy, so the client IP is its last X-Forwarded-For entry.
+    security: {
+      trustXForwardedFor: true,
+      trustedProxyHops: 1,
+    },
   },
 
 
