@@ -4,7 +4,8 @@
 <img src="https://halitsever-api.vercel.app/api/repo-title?title=Supadomain">
 
 <p align="center">
-Self-hosted domain expiry monitoring tool built with Nuxt, Vue and MongoDB. Tracks domain expiration dates over RDAP and sends Slack alerts before your domains expire.<br>
+Self-hosted domain expiration checker built with Nuxt, Vue and MongoDB.<br>
+Add a domain and Supadomain reads its expiration date over RDAP, checks it again every hour and sends a Slack alert before it expires.<br>
 <br/>
 <img src="https://img.shields.io/github/sponsors/halitsever" alt="GitHub sponsors"/>
 <img src="https://img.shields.io/github/license/halitsever/supadomain" alt="License: MIT"/>
@@ -21,11 +22,13 @@ Self-hosted domain expiry monitoring tool built with Nuxt, Vue and MongoDB. Trac
 
 </p>
 
+### Domain expiry monitor features
+
 - Track domain expiry dates via RDAP queries
 - Automatic hourly checks for all monitored domains
 - Slack webhook notifications (configurable days before expiry: 30, 7, 1)
 - Activity log per domain
-- Self-hosted — your data stays in your own MongoDB
+- Self-hosted: your data stays in your own MongoDB
 
 <p align="center">
 <img src="https://halitsever-api.vercel.app/api/installation"/>
@@ -60,7 +63,7 @@ npm run build
 node .output/server/index.mjs
 ```
 
-**Slack Notifications**
+### Slack expiry alerts
 
 1. Create an [Incoming Webhook](https://api.slack.com/messaging/webhooks) in your Slack workspace.
 2. Go to **Settings → Notifications** in the app and paste the webhook URL.

@@ -1,6 +1,6 @@
 # Supadomain
 
-> Supadomain is a self-hosted domain expiry monitoring tool built with Nuxt, Vue and MongoDB. It looks up domain expiration dates over RDAP every hour and sends Slack webhook alerts before domains expire.
+> Supadomain is a self-hosted domain expiration checker and domain expiry monitor built with Nuxt, Vue and MongoDB. It looks up domain expiration dates over RDAP when a domain is added and again every hour, then sends Slack webhook alerts before domains expire.
 
 Run it from a clone: `npm install`, copy `.env.example` to `.env`, set `MONGODB_URI`, `NUXT_SESSION_PASSWORD`, `ADMIN_EMAIL` and `ADMIN_PASSWORD`, then `npm run build` and `node .output/server/index.mjs`. The admin account is created only on the first start against an empty database.
 
