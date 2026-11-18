@@ -4,8 +4,8 @@
 <img src="https://halitsever-api.vercel.app/api/repo-title?title=Supadomain">
 
 <p align="center">
-Self-hosted domain expiration checker built with Nuxt, Vue and MongoDB.<br>
-Add a domain and Supadomain reads its expiration date over RDAP, checks it again every hour and sends a Slack alert before it expires.<br>
+Self-hosted domain monitoring tool and domain expiration checker built with Nuxt, Vue and MongoDB.<br>
+Add a domain and Supadomain reads its expiration date over RDAP, compares it with your alert thresholds every hour and sends a Slack alert before it expires.<br>
 <br/>
 <img src="https://img.shields.io/github/sponsors/halitsever" alt="GitHub sponsors"/>
 <img src="https://img.shields.io/github/license/halitsever/supadomain" alt="License: MIT"/>
@@ -25,7 +25,7 @@ Add a domain and Supadomain reads its expiration date over RDAP, checks it again
 ### Domain expiry monitor features
 
 - Track domain expiry dates via RDAP queries
-- Automatic hourly checks for all monitored domains
+- Hourly check of every monitored domain against its alert thresholds
 - Slack webhook notifications (configurable days before expiry: 30, 7, 1)
 - Activity log per domain
 - Self-hosted: your data stays in your own MongoDB
@@ -68,6 +68,14 @@ node .output/server/index.mjs
 1. Create an [Incoming Webhook](https://api.slack.com/messaging/webhooks) in your Slack workspace.
 2. Go to **Settings → Notifications** in the app and paste the webhook URL.
 3. Per-domain thresholds (default: 30, 7, 1 days before expiry) can be customized per domain.
+
+### How RDAP lookups work here
+
+RDAP (Registration Data Access Protocol) is the successor to WHOIS. It returns the same kind of registration data, including the expiry date, as structured JSON. Supadomain sends each lookup to `https://rdap.org/domain/<domain>`, a public service that redirects the request to the RDAP server of the domain's registry. From the reply it keeps the `expiration`, `registration` and `last changed` events and the list of nameservers.
+
+A lookup runs when you add a domain and when you press **Refresh** on its page. The hourly job does not query RDAP again: it compares the stored expiry date with the domain's alert thresholds. After you renew a domain, press **Refresh** so Supadomain picks up the new date. A refresh also resets the alert state, so the thresholds apply again from the start.
+
+There is no fallback to a WHOIS expiry lookup. If rdap.org cannot answer for a domain, the domain is not added. If the registry's reply has no `expiration` event, the domain is saved without an expiry date and gets no alerts.
 
 <p align="center">
 <a href="https://github.com/halitsever/supadomain/issues">

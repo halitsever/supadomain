@@ -1,14 +1,14 @@
 # Supadomain
 
-> Supadomain is a self-hosted domain expiration checker and domain expiry monitor built with Nuxt, Vue and MongoDB. It looks up domain expiration dates over RDAP when a domain is added and again every hour, then sends Slack webhook alerts before domains expire.
+> Supadomain is a self-hosted domain expiration checker and domain expiry monitor built with Nuxt, Vue and MongoDB. It looks up domain expiration dates over RDAP (through rdap.org) when a domain is added or refreshed, compares the stored dates with alert thresholds every hour, then sends Slack webhook alerts before domains expire. It does not fall back to WHOIS.
 
 Run it from a clone: `npm install`, copy `.env.example` to `.env`, set `MONGODB_URI`, `NUXT_SESSION_PASSWORD`, `ADMIN_EMAIL` and `ADMIN_PASSWORD`, then `npm run build` and `node .output/server/index.mjs`. The admin account is created only on the first start against an empty database.
 
 ## Docs
 
-- [README](https://github.com/halitsever/supadomain/blob/main/README.md): features, prerequisites, installation, environment variables and Slack notification setup
+- [README](https://github.com/halitsever/supadomain/blob/main/README.md): features, prerequisites, installation, environment variables, Slack notification setup and how RDAP lookups work
 - [RDAP lookup](https://github.com/halitsever/supadomain/blob/main/server/rdap-query.ts): how expiry dates are fetched over RDAP
-- [Hourly check](https://github.com/halitsever/supadomain/blob/main/server/plugins/cron.ts): the hourly job that compares expiry dates with alert thresholds and sends Slack messages
+- [Hourly check](https://github.com/halitsever/supadomain/blob/main/server/plugins/cron.ts): the hourly job that compares stored expiry dates with alert thresholds and sends Slack messages; it does not query RDAP
 - [Admin seeding](https://github.com/halitsever/supadomain/blob/main/server/plugins/setup.user.ts): how the first admin user is created from the environment
 - [Domain model](https://github.com/halitsever/supadomain/blob/main/server/models/domain.schema.ts): stored fields for each monitored domain, including notification thresholds
 
