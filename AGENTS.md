@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Supadomain is a self-hosted domain expiry monitor (Nuxt 4, MongoDB) that checks domains over RDAP every hour and sends Slack alerts to the people who run it.
+Supadomain is a self-hosted domain expiry monitor (Nuxt 4, MongoDB) that reads expiry dates over RDAP when a domain is added or refreshed, checks them against alert thresholds every hour and sends Slack alerts to the people who run it.
 
 ## Verify a change
 
