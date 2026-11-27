@@ -6,6 +6,7 @@ Run it from a clone: `npm install`, copy `.env.example` to `.env`, set `MONGODB_
 
 ## Docs
 
+- [Website](https://halitsever.github.io/supadomain/): project site with guides for installation, Slack alerts, RDAP and configuration
 - [README](https://github.com/halitsever/supadomain/blob/main/README.md): features, prerequisites, installation, environment variables, Slack notification setup and how RDAP lookups work
 - [RDAP lookup](https://github.com/halitsever/supadomain/blob/main/server/rdap-query.ts): how expiry dates are fetched over RDAP
 - [Hourly check](https://github.com/halitsever/supadomain/blob/main/server/plugins/cron.ts): the hourly job that compares stored expiry dates with alert thresholds and sends Slack messages; it does not query RDAP

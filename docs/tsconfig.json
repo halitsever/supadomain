@@ -1,0 +1,13 @@
+{
+  // Stops Vite from walking up to the Nuxt tsconfig, whose .nuxt references do not exist in the docs build.
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "jsx": "preserve",
+    "skipLibCheck": true,
+    "noEmit": true
+  },
+  "include": [".vitepress/**/*.ts", ".vitepress/**/*.mts", ".vitepress/**/*.vue"]
+}
