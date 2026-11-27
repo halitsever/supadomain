@@ -1,0 +1,190 @@
+/* Supadomain docs theme: the app's shadcn tokens carried over to VitePress. */
+
+:root {
+  --vp-font-family-base: 'Instrument Sans Variable', ui-sans-serif, system-ui, sans-serif;
+  --vp-font-family-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --sd-blue: #1447e6;
+  --sd-blue-deep: #0b3fd8;
+  --sd-ink: oklch(0.141 0.005 285.823);
+  --sd-mute: oklch(0.552 0.016 285.938);
+  --sd-line: oklch(0.92 0.004 286.32);
+  --sd-wash: oklch(0.967 0.001 286.375);
+  --sd-sidebar: oklch(0.985 0 0);
+  --sd-radius: 0.65rem;
+
+  --vp-c-bg: #fff;
+  --vp-c-bg-alt: var(--sd-sidebar);
+  --vp-c-bg-soft: var(--sd-wash);
+  --vp-c-bg-elv: #fff;
+
+  --vp-c-divider: var(--sd-line);
+  --vp-c-border: var(--sd-line);
+  --vp-c-gutter: var(--sd-line);
+
+  --vp-c-text-1: var(--sd-ink);
+  --vp-c-text-2: oklch(0.42 0.014 285.9);
+  --vp-c-text-3: var(--sd-mute);
+
+  --vp-c-brand-1: var(--sd-blue);
+  --vp-c-brand-2: var(--sd-blue-deep);
+  --vp-c-brand-3: var(--sd-blue);
+  --vp-c-brand-soft: rgb(20 71 230 / 0.09);
+
+  --vp-code-color: var(--sd-ink);
+  --vp-code-bg: var(--sd-wash);
+  --vp-code-block-bg: var(--sd-sidebar);
+  --vp-code-font-size: 0.86em;
+
+  --vp-custom-block-tip-bg: rgb(20 71 230 / 0.06);
+  --vp-custom-block-tip-border: rgb(20 71 230 / 0.2);
+  --vp-custom-block-tip-text: var(--sd-ink);
+  --vp-custom-block-warning-bg: oklch(0.769 0.185 78.17 / 0.1);
+  --vp-custom-block-warning-border: oklch(0.769 0.185 78.17 / 0.35);
+  --vp-custom-block-warning-text: var(--sd-ink);
+
+  --vp-nav-height: 60px;
+  --vp-sidebar-bg-color: var(--sd-sidebar);
+  --vp-shadow-1: 0 1px 0 rgb(17 17 26 / 0.04);
+}
+
+body {
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Solid white bar with a hairline, like the app's header. */
+.VPNavBar,
+.VPNavBar:not(.has-sidebar):not(.home.top),
+.VPNavBar .content-body {
+  background-color: #fff !important;
+}
+.VPNavBar:not(.has-sidebar) {
+  border-bottom: 1px solid var(--sd-line);
+}
+.VPNavBarTitle .title {
+  font-weight: 650;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+}
+.VPNavBarTitle .logo {
+  height: 26px;
+  border-radius: 7px;
+}
+.VPNavBarMenuLink,
+.VPNavScreenMenuLink {
+  font-weight: 500 !important;
+}
+.VPNavBarSearchButton,
+.DocSearch-Button {
+  border: 1px solid var(--sd-line) !important;
+  border-radius: var(--sd-radius) !important;
+  background: #fff !important;
+}
+
+/* Sidebar: the active page gets the app's muted pill. */
+.VPSidebarItem.level-0 > .item > .text {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--sd-mute);
+}
+.VPSidebarItem.level-1 > .item {
+  border-radius: calc(var(--sd-radius) - 2px);
+  padding: 0 10px;
+  margin: 1px -10px;
+}
+.VPSidebarItem.level-1.is-active > .item {
+  background: var(--sd-wash);
+}
+.VPSidebarItem.level-1.is-active > .item .text {
+  color: var(--sd-ink);
+  font-weight: 600;
+}
+.VPSidebarItem.level-1 > .item > .indicator {
+  display: none;
+}
+
+.vp-doc h1 {
+  font-size: clamp(2rem, 4vw, 2.6rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  text-wrap: balance;
+}
+.vp-doc h2 {
+  font-size: 1.5rem;
+  letter-spacing: -0.015em;
+  font-weight: 650;
+  border-top: 1px solid var(--sd-line);
+}
+.vp-doc h3 {
+  font-size: 1.14rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+.vp-doc p,
+.vp-doc li {
+  line-height: 1.7;
+}
+.vp-doc a {
+  font-weight: 500;
+  text-decoration-color: rgb(20 71 230 / 0.35);
+}
+.vp-doc :not(pre) > code {
+  border: 1px solid var(--sd-line);
+  border-radius: 5px;
+  padding: 1px 5px;
+  overflow-wrap: anywhere;
+}
+.vp-doc div[class*='language-'] {
+  border: 1px solid var(--sd-line);
+  border-radius: var(--sd-radius);
+}
+.vp-doc .custom-block {
+  border-radius: var(--sd-radius);
+}
+
+/* Reference tables read like the app's domain table. */
+.vp-doc table {
+  display: block;
+  overflow-x: auto;
+  font-size: 14px;
+}
+.vp-doc tr,
+.vp-doc tr:nth-child(2n) {
+  background: none;
+  border-top: 1px solid var(--sd-line);
+}
+.vp-doc th,
+.vp-doc td {
+  border: 0;
+  padding: 10px 16px 10px 0;
+  vertical-align: top;
+}
+.vp-doc th {
+  background: none;
+  text-align: left;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--sd-mute);
+}
+.vp-doc td:not(:last-child) code {
+  white-space: nowrap;
+}
+.vp-doc thead tr {
+  border-top: 0;
+}
+
+/* The landing page owns its full width. */
+.VPPage {
+  padding: 0;
+}
+.VPFooter {
+  border-top: 1px solid var(--sd-line);
+  background: var(--sd-sidebar) !important;
+}
+
+:focus-visible {
+  outline: 2px solid var(--sd-blue);
+  outline-offset: 2px;
+}
