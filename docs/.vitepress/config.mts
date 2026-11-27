@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitepress'
 
-const site = 'https://halitsever.github.io/supadomain/'
+const site = 'https://projects.halit.org/supadomain/'
 const homeTitle = 'Self-hosted domain expiration monitoring'
 const description = 'Supadomain is a self-hosted, open source domain expiration monitoring tool. It reads expiry dates over RDAP and sends a Slack alert before a domain expires.'
 
@@ -40,7 +40,7 @@ export default defineConfig({
   sitemap: { hostname: site },
 
   head: [
-    /** Cloudflare Web Analytics, one token for every page on halitsever.github.io. */
+    /** Cloudflare Web Analytics, one token for every page on projects.halit.org. */
     ['script', { defer: '', src: 'https://static.cloudflareinsights.com/beacon.min.js', 'data-cf-beacon': '{"token": "dd7e54d3f48841c187d72d9dbb92a6b6"}' }],
     ['link', { rel: 'icon', href: '/supadomain/favicon.ico', sizes: '32x32' }],
     ['link', { rel: 'icon', href: '/supadomain/favicon.svg', type: 'image/svg+xml' }],
