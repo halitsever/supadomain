@@ -15,7 +15,7 @@
     "bcrypt": "^6.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "croner": "^11.0.0",
+    "croner": "^11.0.1",
     "logmoji": "^1.1.8",
     "lucide-vue-next": "^1.0.0",
     "nuxt": "^4.6.4",
@@ -24,9 +24,9 @@
     "nuxt-mongoose": "^1.1.2",
     "reka-ui": "^2.8.2",
     "shadcn-nuxt": "^2.4.3",
-    "tailwind-merge": "^3.5.0",
+    "tailwind-merge": "^3.7.1",
     "vue": "^3.5.45",
-    "vue-router": "^5.5.0",
+    "vue-router": "^5.5.1",
     "vue-sonner": "^2.0.9"
   },
   "devDependencies": {
