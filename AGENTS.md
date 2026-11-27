@@ -17,7 +17,7 @@ Supadomain is a self-hosted domain expiry monitor (Nuxt 4, MongoDB) that reads e
 
 ## Docs site
 
-- The project website is a VitePress site in `docs/`, published to https://halitsever.github.io/supadomain/ by `.github/workflows/docs.yml` on pushes to `main` that touch `docs/**`.
+- The project website is a VitePress site in `docs/`, published to https://projects.halit.org/supadomain/ by `.github/workflows/docs.yml` on pushes to `main` that touch `docs/**`.
 - It has its own `docs/package.json` and lockfile. Build it with `cd docs && npm ci && npm run build`; the root install and build do not touch it.
 - `docs/tsconfig.json` keeps the docs build away from the root tsconfig, which points at `.nuxt/`. Nuxt and Tailwind do not scan `docs/`.
 - The site documents what the code does. When alert logic, RDAP handling or environment variables change, update the matching page in `docs/guide/`.

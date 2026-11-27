@@ -6,7 +6,7 @@
 <p align="center">
 Self-hosted domain monitoring tool and domain expiration checker built with Nuxt, Vue and MongoDB.<br>
 Add a domain and Supadomain reads its expiration date over RDAP, compares it with your alert thresholds every hour and sends a Slack alert before it expires.<br>
-Docs and guides: <a href="https://halitsever.github.io/supadomain/">halitsever.github.io/supadomain</a><br>
+Docs and guides: <a href="https://projects.halit.org/supadomain/">projects.halit.org/supadomain</a><br>
 <br/>
 <img src="https://img.shields.io/github/sponsors/halitsever" alt="GitHub sponsors"/>
 <img src="https://img.shields.io/github/license/halitsever/supadomain" alt="License: MIT"/>
