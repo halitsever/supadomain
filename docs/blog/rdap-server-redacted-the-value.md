@@ -70,7 +70,7 @@ For `wikipedia.org` the .org registry printed `{"type":"Registry Domain ID"}` on
 
 ## How to reach a domain owner anyway
 
-Use the contact channel the registrar publishes. With `replacementValue` redaction that is often a web form or an anonymized email in the RDAP answer itself, like the `contact-uri` above. For abuse, every registrar lists an abuse contact, which RDAP returns under the registrar entity with the role `abuse`. Requests for the hidden data itself go to the registrar, which decides under the Registration Data Policy and local law.
+Use the contact channel the registrar publishes. With `replacementValue` redaction that is often a web form or an anonymized email in the RDAP answer itself, like the `contact-uri` above. For abuse, every registrar lists an abuse contact, which RDAP returns under the registrar entity with the role `abuse`. Requests for the hidden data itself go to the registrar, which decides under the Registration Data Policy and local law. For gTLDs, ICANN's Registration Data Request Service passes such requests on; [ICANN Lookup](/blog/icann-lookup) explains where it fits.
 
 ## FAQ
 
@@ -87,4 +87,5 @@ No. Registration, expiration and last-changed dates, status codes, the registrar
 - [Domain expiry scam emails: check the real date first](/blog/domain-expiry-scam-email)
 - ["No registry RDAP server was identified": what it means](/blog/no-registry-rdap-server)
 - [How to check a domain expiry date without WHOIS](/blog/check-domain-expiry-date)
+- [ICANN Lookup: what the registration data tool shows](/blog/icann-lookup)
 - [All posts](/blog/)

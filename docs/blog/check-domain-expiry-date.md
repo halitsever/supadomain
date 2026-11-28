@@ -33,7 +33,7 @@ On 28 November 2026 this printed:
 
 [rdap.org](https://about.rdap.org/) is a public redirector. It looks up the registry's server in IANA's bootstrap file and redirects you there; `-L` tells curl to follow. The date is ISO 8601 in UTC.
 
-The `events` array also holds the registration date (`registration`), the last change (`last changed`) and the time the registry's data was refreshed (`last update of RDAP database`). The [RDAP vs WHOIS guide](/guide/rdap-vs-whois#what-an-rdap-lookup-returns) shows a full example.
+The `events` array also holds the registration date (`registration`, the basis of [domain age](/blog/domain-age)), the last change (`last changed`) and the time the registry's data was refreshed (`last update of RDAP database`). The [RDAP vs WHOIS guide](/guide/rdap-vs-whois#what-an-rdap-lookup-returns) shows a full example.
 
 ## Days left
 

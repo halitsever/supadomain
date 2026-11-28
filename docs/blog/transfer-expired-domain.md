@@ -62,10 +62,12 @@ curl -sL https://rdap.org/domain/example.com | jq '.status'
 | `redemption period` | Deleted. Restore at the current registrar first. |
 | `pending delete` | Too late to restore or transfer. |
 
+Every other code, from `server hold` to `pending transfer`, is in [domain status codes](/blog/domain-status-codes).
+
 ## The transfer steps
 
 1. Unlock the domain in the current registrar's dashboard.
-2. Get the auth code (AuthInfo). If the registrar has no self-service tool, it must give you the code within five calendar days of your request.
+2. Get the auth code (AuthInfo). If the registrar has no self-service tool, it must give you the code within five calendar days of your request. [EPP code](/blog/epp-code) covers where to find it and how to keep it safe.
 3. Start the transfer at the new registrar with the code and pay for the added year.
 4. Approve the transfer if the registrar sends a confirmation email.
 
