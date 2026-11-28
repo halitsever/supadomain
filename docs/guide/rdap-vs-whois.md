@@ -77,13 +77,13 @@ A lookup runs at three moments:
 
 So each domain is looked up about once a day, and a renewal shows up without a manual refresh. When a lookup returns a different expiry date, the alert state for that domain is reset.
 
-Requests carry a `User-Agent` header that names Supadomain. rdap.org answers `403` to clients that send none.
+Requests carry the header `User-Agent: Supadomain/<version> (+https://github.com/halitsever/supadomain)`, with the version from `package.json`. rdap.org answers `403` to clients that send none, and to Node's default `node`. With that header it answers with a redirect to the registry's own RDAP server, which the app follows.
 
 ## When RDAP has no answer
 
 There is no fallback to a WHOIS expiry lookup. Two cases follow from that.
 
-**The lookup fails.** If rdap.org answers `404`, the domain is not added and the app says "No RDAP record for example.tld. The domain is not registered, or its TLD has no RDAP server." This is what happens for a TLD whose registry has no RDAP service, for a name that is not registered and for a typo. Any other error, such as a timeout, gives "The RDAP lookup failed. Try again in a moment." On a refresh or a daily lookup, a failed request leaves the stored data as it was.
+**The lookup fails.** If rdap.org answers `404`, the domain is not added and the app says "No RDAP record for example.tld. The domain is not registered, or its TLD has no RDAP server." This is what happens for a TLD whose registry has no RDAP service, for a name that is not registered and for a typo. If the server refuses the request with `403`, the message says so and names the status. If it answers `429` because of too many lookups, the message says when to try again, using the `Retry-After` header when the server sends one. Any other error, such as a timeout, gives "The RDAP lookup failed. Try again in a moment." On a refresh or a daily lookup, a failed request leaves the stored data as it was.
 
 **The reply has no `expiration` event.** Some registries answer over RDAP and leave the expiry date out. The domain is saved without a date, its status is **Unknown** and it gets no alerts.
 
