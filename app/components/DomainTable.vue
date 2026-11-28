@@ -27,6 +27,7 @@ type SortKey = "url" | "expireTime";
 type SortDir = "asc" | "desc";
 
 const deletingUrl = ref<string | null>(null);
+const removeOpen = ref(false);
 const bulkDeleteOpen = ref(false);
 const page = ref(1);
 const sortKey = ref<SortKey>("expireTime");
@@ -44,8 +45,10 @@ const filteredDomains = computed(() => {
     let A: string | number = "", B: string | number = "";
     if (sortKey.value === "url") { A = a.url; B = b.url; }
     if (sortKey.value === "expireTime") {
-      A = a.expireTime ? new Date(a.expireTime).getTime() : Infinity;
-      B = b.expireTime ? new Date(b.expireTime).getTime() : Infinity;
+      // Domains without an expiry date stay at the bottom in both directions.
+      if (!a.expireTime || !b.expireTime) return a.expireTime ? -1 : b.expireTime ? 1 : 0;
+      A = new Date(a.expireTime).getTime();
+      B = new Date(b.expireTime).getTime();
     }
     const cmp = A > B ? 1 : A < B ? -1 : 0;
     return sortDir.value === "asc" ? cmp : -cmp;
@@ -58,7 +61,8 @@ const pagedDomains = computed(() => {
   return filteredDomains.value.slice(start, start + PAGE_SIZE);
 });
 
-watch([() => props.search, () => props.statusFilter, () => props.domains], () => { page.value = 1; });
+watch([() => props.search, () => props.statusFilter], () => { page.value = 1; });
+watch(totalPages, (pages) => { if (page.value > pages) page.value = pages; });
 
 watch(() => props.domains, (newDomains) => {
   const existingIds = new Set(newDomains.map(d => d.id));
@@ -100,6 +104,17 @@ function fmtDate(date: string | null) {
   return new Date(date).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
 }
 
+function askRemove(url: string) {
+  deletingUrl.value = url;
+  removeOpen.value = true;
+}
+
+// The URL outlives the dialog, which closes before this handler runs.
+function confirmRemove() {
+  if (deletingUrl.value) emit("remove", deletingUrl.value);
+  removeOpen.value = false;
+}
+
 function doBulkDelete() {
   const urls = filteredDomains.value
     .filter((d) => selected.value.has(d.id))
@@ -111,7 +126,7 @@ function doBulkDelete() {
 </script>
 
 <template>
-  <AlertDialog :open="!!deletingUrl" @update:open="(v) => { if (!v) deletingUrl = null }">
+  <AlertDialog :open="removeOpen" @update:open="removeOpen = $event">
     <AlertDialogContent>
       <AlertDialogHeader>
         <AlertDialogTitle>Remove Domain</AlertDialogTitle>
@@ -121,10 +136,10 @@ function doBulkDelete() {
       </AlertDialogHeader>
       <AlertDialogFooter>
         <AlertDialogCancel>
-          <Button variant="outline" class="cursor-pointer" @click="deletingUrl = null">Cancel</Button>
+          <Button variant="outline" class="cursor-pointer">Cancel</Button>
         </AlertDialogCancel>
         <AlertDialogAction>
-          <Button variant="destructive" class="cursor-pointer" @click="() => { emit('remove', deletingUrl!); deletingUrl = null }">
+          <Button variant="destructive" class="cursor-pointer" @click="confirmRemove">
             Remove
           </Button>
         </AlertDialogAction>
@@ -275,7 +290,7 @@ function doBulkDelete() {
           <!-- Notify days -->
           <td class="px-4 py-3">
             <span class="text-[12.5px] text-muted-foreground font-mono">
-              {{ domain.notifyDaysBefore.join(", ") }}d
+              {{ domain.notifyDaysBefore.length ? `${domain.notifyDaysBefore.join(", ")}d` : "On expiry only" }}
             </span>
           </td>
 
@@ -297,7 +312,7 @@ function doBulkDelete() {
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   class="cursor-pointer text-[13px] text-destructive focus:text-destructive focus:bg-destructive/10"
-                  @click="deletingUrl = domain.url"
+                  @click="askRemove(domain.url)"
                 >
                   <Trash2 class="mr-2 size-3.5" />Remove
                 </DropdownMenuItem>

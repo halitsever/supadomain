@@ -19,10 +19,11 @@ const editNotifyDays = ref<number[]>([]);
 
 const THRESHOLD_OPTIONS = [30, 7, 1] as const;
 
+// Unsaved edits are dropped each time the dialog opens.
 watch(
-  () => props.domain,
-  (domain) => {
-    if (domain) {
+  () => [props.modelValue, props.domain] as const,
+  ([open, domain]) => {
+    if (open && domain) {
       editNotifications.value = domain.notifications;
       editNotifyDays.value = [...(domain.notifyDaysBefore ?? [30, 7, 1])];
     }
@@ -38,23 +39,24 @@ function toggleThreshold(days: number) {
 const updateDomain = async () => {
   if (!props.domain) return;
 
-  const { data } = await useFetch("/api/domain/update", {
-    method: "PUT",
-    body: {
-      url: props.domain.url,
-      notifications: editNotifications.value,
-      notifyDaysBefore: editNotifyDays.value,
-    },
-  });
+  try {
+    const result = await $fetch<{ success: boolean; message?: string }>("/api/domain/update", {
+      method: "PUT",
+      body: {
+        url: props.domain.url,
+        notifications: editNotifications.value,
+        notifyDaysBefore: editNotifyDays.value,
+      },
+    });
 
-  if (data.value?.success) {
+    if (!result.success) return toast.error("Failed to update domain", { description: result.message });
+
     toast.success("Domain updated", { description: "Domain updated successfully" });
     emit("updated");
-  } else {
-    toast.error("Failed to update domain");
+    emit("update:modelValue", false);
+  } catch {
+    toast.error("Failed to update domain", { description: "The server could not be reached" });
   }
-
-  emit("update:modelValue", false);
 };
 </script>
 
@@ -68,7 +70,7 @@ const updateDomain = async () => {
 
       <div class="flex flex-col gap-4 py-2">
         <div class="flex items-center gap-3">
-          <Switch :modelValue="editNotifications" @click="editNotifications = !editNotifications" id="edit-notifications" />
+          <Switch v-model="editNotifications" id="edit-notifications" />
           <Label for="edit-notifications">Notifications</Label>
         </div>
 

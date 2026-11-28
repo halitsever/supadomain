@@ -25,7 +25,7 @@ const NuxtLink = resolveComponent('NuxtLink');
 
 const { data: statsData } = await useFetch<{ success: boolean; stats: { total: number } }>(
   "/api/domain/stats",
-  { lazy: true, server: false }
+  { key: "sidebar-stats", lazy: true, server: false }
 );
 const domainCount = computed(() => statsData.value?.stats?.total ?? null);
 
@@ -135,7 +135,7 @@ async function handleLogout() {
                   <div class="flex-1 min-w-0">
                     <div class="text-[13px] font-medium truncate">{{ user?.email }}</div>
                     <div class="text-[11.5px] text-muted-foreground">
-                      {{ domainCount !== null ? `${domainCount} domains` : "" }}
+                      {{ domainCount !== null ? `${domainCount} domain${domainCount !== 1 ? "s" : ""}` : "" }}
                     </div>
                   </div>
                   <ChevronsUpDown class="size-[14px] text-muted-foreground shrink-0" />

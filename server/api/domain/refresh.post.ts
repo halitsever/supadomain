@@ -3,29 +3,26 @@ import logger from "~~/server/logger";
 import { Domain } from "~~/server/models/domain.schema";
 import executeRdapQuery from "~~/server/rdap-query";
 import { logActivity } from "~~/server/utils/activity";
+import { applyRdapData } from "~~/server/utils/domain-refresh";
 
 export default defineEventHandler(async (event) => {
     checkAuth(event);
 
-    const { url } = await readBody(event);
+    const { url } = (await readBody(event)) ?? {};
 
-    if (!url) return { success: false, message: "Domain URL is required" };
+    if (!url || typeof url !== "string") return { success: false, message: "Domain URL is required" };
 
     try {
         const domain = await Domain.findOne({ url });
         if (!domain) return { success: false, message: "Domain not found" };
 
         const rdapQuery = await executeRdapQuery(url);
-        if (!rdapQuery.success) return { success: false, message: "Failed to retrieve RDAP data" };
+        if (!rdapQuery.success) {
+            const message = rdapQuery.notFound ? `No RDAP record for ${url}` : "The RDAP lookup failed. Try again in a moment.";
+            return { success: false, message };
+        }
 
-        domain.lastChecked = new Date();
-        domain.expireTime = rdapQuery.expirationDate ? new Date(rdapQuery.expirationDate) : undefined;
-        domain.registrationDate = rdapQuery.registrationDate ? new Date(rdapQuery.registrationDate) : undefined;
-        domain.lastUpdate = rdapQuery.lastUpdate ? new Date(rdapQuery.lastUpdate) : undefined;
-        domain.lastUpdatedInRdap = rdapQuery.lastUpdatedInRdap ? new Date(rdapQuery.lastUpdatedInRdap) : undefined;
-        domain.nameservers = rdapQuery.nameservers;
-        domain.lastNotifiedDays = null;
-
+        applyRdapData(domain, rdapQuery);
         await domain.save();
         await logActivity(url, 'refresh', `${url} refreshed from RDAP`);
 

@@ -21,23 +21,41 @@ const FILTERS = computed(() => [
   { id: "warning",  label: "Warning",  count: domains.value.filter(d => getDomainStatus(d.expireTime) === "warning").length },
   { id: "critical", label: "Critical", count: domains.value.filter(d => getDomainStatus(d.expireTime) === "critical").length },
   { id: "expired",  label: "Expired",  count: domains.value.filter(d => getDomainStatus(d.expireTime) === "expired").length },
-]);
+  { id: "unknown",  label: "Unknown",  count: domains.value.filter(d => getDomainStatus(d.expireTime) === "unknown").length },
+].filter(f => f.id !== "unknown" || f.count > 0));
 
 function openEditModal(domain: Domain) {
   editingDomain.value = domain;
   editModalStatus.value = true;
 }
 
+// The sidebar shows the domain count, so it reloads with the list.
+async function reloadDomains() {
+  await Promise.all([refreshDomains(), refreshNuxtData("sidebar-stats")]);
+}
+
+async function deleteDomain(url: string) {
+  try {
+    const result = await $fetch<{ success: boolean }>("/api/domain/remove", { method: "DELETE", body: { url } });
+    return result.success;
+  } catch {
+    return false;
+  }
+}
+
 async function removeDomain(url: string) {
-  await $fetch("/api/domain/remove", { method: "DELETE", body: { url } });
-  await refreshDomains();
-  toast.success(`Domain removed — ${url}`);
+  const removed = await deleteDomain(url);
+  await reloadDomains();
+  if (removed) toast.success(`Domain removed: ${url}`);
+  else toast.error(`Failed to remove ${url}`);
 }
 
 async function bulkRemoveDomains(urls: string[]) {
-  await Promise.all(urls.map((url) => $fetch("/api/domain/remove", { method: "DELETE", body: { url } })));
-  await refreshDomains();
-  toast.success(`Removed ${urls.length} domain${urls.length !== 1 ? "s" : ""}`);
+  const results = await Promise.all(urls.map(deleteDomain));
+  const removed = results.filter(Boolean).length;
+  await reloadDomains();
+  if (removed) toast.success(`Removed ${removed} domain${removed !== 1 ? "s" : ""}`);
+  if (removed < urls.length) toast.error(`Failed to remove ${urls.length - removed} domain${urls.length - removed !== 1 ? "s" : ""}`);
 }
 
 function exportCSV() {
@@ -51,7 +69,7 @@ function exportCSV() {
     d.notifications ? "Yes" : "No",
     d.notifyDaysBefore.join(", "),
   ]);
-  const csv = [headers, ...rows].map(r => r.map(v => `"${v}"`).join(",")).join("\n");
+  const csv = [headers, ...rows].map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
@@ -76,7 +94,7 @@ function exportCSV() {
         <Button variant="secondary" size="sm" class="cursor-pointer" :disabled="!domains.length" @click="exportCSV">
           <Download class="size-3.5 mr-1.5" />Export
         </Button>
-        <AddDomainDialog @added="refreshDomains()" />
+        <AddDomainDialog @added="reloadDomains()" />
       </div>
     </div>
 
@@ -118,7 +136,7 @@ function exportCSV() {
     <DomainDrawer
       :domain-url="drawerDomain"
       @close="drawerDomain = null"
-      @removed="refreshDomains()"
+      @removed="reloadDomains()"
     />
   </div>
 </template>

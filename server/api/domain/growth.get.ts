@@ -2,42 +2,33 @@ import checkAuth from "~~/server/auth-check";
 import logger from "~~/server/logger";
 import { Domain } from "~~/server/models/domain.schema";
 
+const DAY_MS = 86400000;
+const PERIOD_DAYS: Record<string, number> = { "7d": 7, "30d": 30, "90d": 90 };
+
 export default defineEventHandler(async (event) => {
     checkAuth(event);
 
-    const { period = "30d" } = getQuery(event) as { period?: string };
+    const period = String(getQuery(event).period ?? "30d").toLowerCase();
 
     try {
         const domains = await Domain.find({}).select("createdAt").lean();
+        const created = domains
+            .map((d) => (d.createdAt ? new Date(d.createdAt).getTime() : NaN))
+            .filter((time) => !Number.isNaN(time));
 
-        const now = new Date();
-        now.setHours(23, 59, 59, 999);
-
-        let startDate: Date;
-        if (period === "7d") startDate = new Date(now.getTime() - 6 * 86400000);
-        else if (period === "30d") startDate = new Date(now.getTime() - 29 * 86400000);
-        else if (period === "90d") startDate = new Date(now.getTime() - 89 * 86400000);
-        else {
-            if (domains.length === 0) {
-                startDate = new Date(now.getTime() - 29 * 86400000);
-            } else {
-                const earliest = Math.min(...domains.map(d => new Date((d as any).createdAt ?? now).getTime()));
-                startDate = new Date(earliest);
-            }
-        }
-
-        startDate.setHours(0, 0, 0, 0);
-        const totalDays = Math.ceil((now.getTime() - startDate.getTime()) / 86400000);
+        // Days are counted in UTC so the labels match the timestamps on every server.
+        const today = Math.floor(Date.now() / DAY_MS);
+        const firstDay = PERIOD_DAYS[period]
+            ? today - PERIOD_DAYS[period] + 1
+            : Math.min(today - 29, ...created.map((time) => Math.floor(time / DAY_MS)));
 
         const points: { date: string; count: number }[] = [];
-        for (let i = 0; i <= totalDays; i++) {
-            const dayEnd = new Date(startDate.getTime() + i * 86400000);
-            dayEnd.setHours(23, 59, 59, 999);
-            const count = domains.filter(d => {
-                const created = (d as any).createdAt;
-                return created && new Date(created).getTime() <= dayEnd.getTime();
-            }).length;
-            points.push({ date: dayEnd.toISOString().split("T")[0]!, count });
+        for (let day = firstDay; day <= today; day++) {
+            const dayEnd = (day + 1) * DAY_MS;
+            points.push({
+                date: new Date(day * DAY_MS).toISOString().slice(0, 10),
+                count: created.filter((time) => time < dayEnd).length,
+            });
         }
 
         return { success: true, points };

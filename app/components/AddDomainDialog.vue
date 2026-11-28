@@ -10,36 +10,37 @@ const modalStatus = ref(false);
 const newDomain = ref("");
 const addButtonClicked = ref(false);
 
-const validateDomain = (url: string): boolean => {
-  const domainPattern = /^(?!:\/\/)([a-zA-Z0-9-_]+\.)*[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,11}?$/;
-  return domainPattern.test(url);
-};
-
 const addNewDomain = async () => {
-  if (!validateDomain(newDomain.value))
+  if (addButtonClicked.value) return;
+
+  if (!normalizeDomain(newDomain.value))
     return toast.error("Invalid domain format", {
-      description: "Please enter a valid domain (e.g., www.example.com)",
+      description: "Please enter a valid domain (e.g., example.com)",
     });
 
   addButtonClicked.value = true;
 
-  const { data } = await useFetch("/api/domain/create", {
-    method: "POST",
-    body: { url: newDomain.value },
-  });
-
-  if (data.value?.success) {
-    toast.success("Domain created", { description: "Domain created successfully" });
-    emit("added");
-  } else {
-    toast.error("Failed to create domain", {
-      description: data?.value?.message || "An error occurred while creating the domain",
+  try {
+    const result = await $fetch<{ success: boolean; message?: string }>("/api/domain/create", {
+      method: "POST",
+      body: { url: newDomain.value },
     });
-  }
 
-  addButtonClicked.value = false;
-  modalStatus.value = false;
-  newDomain.value = "";
+    if (result.success) {
+      toast.success("Domain created", { description: "Domain created successfully" });
+      emit("added");
+      modalStatus.value = false;
+      newDomain.value = "";
+    } else {
+      toast.error("Failed to create domain", {
+        description: result.message || "An error occurred while creating the domain",
+      });
+    }
+  } catch {
+    toast.error("Failed to create domain", { description: "The server could not be reached" });
+  } finally {
+    addButtonClicked.value = false;
+  }
 };
 </script>
 
@@ -51,19 +52,22 @@ const addNewDomain = async () => {
       </Button>
     </DialogTrigger>
     <DialogContent>
-      <DialogHeader>
-        <DialogTitle>Add new Domain</DialogTitle>
-        <DialogDescription>
-          <Label for="domain">Domain URL</Label>
-          <Input v-model="newDomain" id="domain" type="text" placeholder="www.example.com" />
-        </DialogDescription>
-      </DialogHeader>
-      <DialogFooter>
-        <Button :disabled="addButtonClicked" type="submit" @click="addNewDomain()" class="cursor-pointer">
-          <Spinner v-if="addButtonClicked" />
-          Add
-        </Button>
-      </DialogFooter>
+      <form class="grid gap-4" @submit.prevent="addNewDomain()">
+        <DialogHeader>
+          <DialogTitle>Add new Domain</DialogTitle>
+          <DialogDescription>The expiry date is read over RDAP when you add the domain.</DialogDescription>
+        </DialogHeader>
+        <div class="grid gap-2">
+          <Label for="domain">Domain</Label>
+          <Input v-model="newDomain" id="domain" type="text" placeholder="example.com" autocomplete="off" />
+        </div>
+        <DialogFooter>
+          <Button :disabled="addButtonClicked" type="submit" class="cursor-pointer">
+            <Spinner v-if="addButtonClicked" />
+            Add
+          </Button>
+        </DialogFooter>
+      </form>
     </DialogContent>
   </Dialog>
 </template>

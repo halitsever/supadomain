@@ -74,7 +74,7 @@ For thin registries such as .com, the registry holds the dates and the registrar
 
 ## Keep checking without doing it by hand
 
-A lookup tells you the date today. To be told before it arrives, [Supadomain](/) stores the date from RDAP when you add a domain and compares it with your alert thresholds every hour, posting to Slack. It does not repeat the lookup by itself: press **Refresh** after each renewal. [Getting started](/guide/getting-started) installs it.
+A lookup tells you the date today. To be told before it arrives, [Supadomain](/) stores the date from RDAP when you add a domain and compares it with your alert thresholds every hour, posting to Slack. It repeats the lookup once a day, so a renewal shows up by itself. [Getting started](/guide/getting-started) installs it.
 
 ## FAQ
 

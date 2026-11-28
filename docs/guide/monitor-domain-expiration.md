@@ -61,7 +61,7 @@ An **Unknown** domain needs another method from this page, because Supadomain ha
 
 ### Act on an alert
 
-When the Slack message arrives, renew the domain at its registrar. Then open the domain in Supadomain and press **Refresh** on its page. The refresh reads the new expiry date and arms the alert for the next cycle. Skip it and the app keeps showing the old date, since the hourly check works from stored dates only.
+When the Slack message arrives, renew the domain at its registrar. Supadomain reads the expiry date of every domain again once a day, so the new date appears by itself and the alerts start over for the next cycle. To see it right away, open the domain and press **Refresh** on its page.
 
 ## A short checklist
 
@@ -69,6 +69,6 @@ When the Slack message arrives, renew the domain at its registrar. Then open the
 - Send registrar email to a shared mailbox.
 - Keep every domain in one list, whatever registrar holds it.
 - Route the alert to a channel several people read.
-- Refresh the stored date after every renewal.
+- After a renewal, check that the list shows the new date.
 
 For the protocol behind the lookups, read [RDAP vs WHOIS](./rdap-vs-whois).

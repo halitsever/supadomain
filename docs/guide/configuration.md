@@ -39,7 +39,7 @@ Open a domain's row menu on the **Domains** page and choose **Edit**.
 | Notifications | On or off | On |
 | Notify me before expiration | Any of 30, 7 and 1 days | 30, 7 and 1 |
 
-One alert is sent per domain, when it crosses the largest threshold that is ticked. [When an alert fires](./slack-alerts#when-an-alert-fires) has the full rule.
+A domain sends one alert for each ticked threshold it crosses, and one more when it expires. [When an alert fires](./slack-alerts#when-an-alert-fires) has the full rule.
 
 ## Fixed behaviour
 
@@ -49,7 +49,8 @@ These values live in the code and have no setting.
 | --- | --- |
 | Expiry check schedule | Every hour at minute 0 (`0 * * * *`) |
 | RDAP endpoint | `https://rdap.org/domain/<domain>` |
-| When RDAP is queried | On add and on **Refresh** |
+| When RDAP is queried | On add, on **Refresh** and once a day by the hourly job |
+| RDAP request timeout | 15 seconds |
 | Warning status | 30 days or fewer left |
 | Critical status | 7 days or fewer left |
 | Expired status | The stored date has passed |
@@ -94,10 +95,10 @@ A domain document has these fields:
 | `nameservers` | Array of strings | Nameserver names from RDAP |
 | `notifications` | Boolean | Whether alerts are on. Default `true`. |
 | `notifyDaysBefore` | Array of numbers | Alert thresholds in days. Default `[30, 7, 1]`. |
-| `lastNotifiedDays` | Number or null | The threshold of the last alert sent. Cleared by a refresh. |
+| `lastNotifiedDays` | Number or null | The threshold of the last alert sent, or `-1` for the expiry alert. Cleared when a lookup returns a new expiry date. |
 
 Backing up the MongoDB database backs up everything Supadomain knows. There are no other data files apart from the rate limiter's logs.
 
 ## Ports and processes
 
-The production build is a single Node process started with `node .output/server/index.mjs`. It listens on port 3000 unless `PORT` is set. The hourly check runs inside this process, so keep it running under a process manager or a container that restarts it.
+The production build is a single Node process started with `node --env-file=.env .output/server/index.mjs`. It listens on port 3000 unless `PORT` is set. The hourly check runs inside this process, so keep it running under a process manager or a container that restarts it.

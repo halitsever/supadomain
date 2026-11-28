@@ -71,7 +71,7 @@ Every other code, from `server hold` to `pending transfer`, is in [domain status
 3. Start the transfer at the new registrar with the code and pay for the added year.
 4. Approve the transfer if the registrar sends a confirmation email.
 
-When the transfer is done, look up the expiry date again to confirm the extra year, and press **Refresh** on the domain in [Supadomain](/) if you monitor it there, so it counts down to the new date.
+When the transfer is done, look up the expiry date again to confirm the extra year, and if you monitor the domain in [Supadomain](/), press **Refresh** on it to count down to the new date right away. The daily lookup picks it up otherwise.
 
 ## FAQ
 

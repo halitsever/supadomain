@@ -4,8 +4,8 @@ import { Domain } from "~~/server/models/domain.schema";
 
 export default defineEventHandler(async (event) => {
     checkAuth(event);
-    const url = getQuery(event).url as string;
-    if (!url) return { success: false, message: "URL is required" };
+    const url = getQuery(event).url;
+    if (!url || typeof url !== "string") return { success: false, message: "URL is required" };
 
     try {
         const domain = await Domain.findOne({ url }).exec();
@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
                 lastUpdate: domain.lastUpdate ?? null,
                 lastUpdatedInRdap: domain.lastUpdatedInRdap ?? null,
                 notifications: domain.notifications ?? false,
-                notifyDaysBefore: domain.notifyDaysBefore ?? [30, 7, 1],
+                notifyDaysBefore: domain.notifyDaysBefore ?? DEFAULT_NOTIFY_DAYS,
                 nameservers: domain.nameservers ?? [],
             },
         };

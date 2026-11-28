@@ -79,7 +79,7 @@ function handleGlobalKey(e: KeyboardEvent) {
             <input
               ref="inputRef"
               v-model="query"
-              placeholder="Search domains, jump to a page…"
+              placeholder="Jump to a page…"
               class="flex-1 bg-transparent text-[15px] outline-none placeholder:text-muted-foreground"
             />
           </div>

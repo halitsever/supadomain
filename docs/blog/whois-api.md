@@ -103,7 +103,7 @@ rdap.org also sends `Access-Control-Allow-Origin: *`, so the same `fetch` works 
 
 ## Where Supadomain uses it
 
-[Supadomain](/) calls `https://rdap.org/domain/<name>` from its server when you add a domain or press **Refresh**, and keeps the expiration, registration and last-changed events plus the nameservers (`server/rdap-query.ts`). That request goes out with the HTTP client's default User-Agent, and in a test on 28 November 2026 the same call from Node got the 403 described above, so set a User-Agent in your own code and check the server log if adding a domain fails. The [RDAP vs WHOIS guide](/guide/rdap-vs-whois) compares the two protocols in more depth.
+[Supadomain](/) calls `https://rdap.org/domain/<name>` from its server when you add a domain, once a day after that and whenever you press **Refresh**, and keeps the expiration, registration and last-changed events plus the nameservers (`server/rdap-query.ts`). That request carries its own User-Agent, because in a test on 28 November 2026 the same call with Node's default one got the 403 described above. Set a User-Agent in your own code too. The [RDAP vs WHOIS guide](/guide/rdap-vs-whois) compares the two protocols in more depth.
 
 ## FAQ
 

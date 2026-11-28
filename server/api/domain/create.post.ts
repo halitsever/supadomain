@@ -3,30 +3,34 @@ import logger from "~~/server/logger";
 import { Domain } from "~~/server/models/domain.schema";
 import executeRdapQuery from "~~/server/rdap-query";
 import { logActivity } from "~~/server/utils/activity";
+import { applyRdapData } from "~~/server/utils/domain-refresh";
 
 export default defineEventHandler(async (event) => {
     checkAuth(event);
 
-    const { url } = await readBody(event);
+    const body = await readBody(event);
+    const url = normalizeDomain(body?.url);
+    if (!url) return { success: false, message: "Enter a valid domain name, for example example.com" };
+
     try {
+        if (await Domain.exists({ url })) return { success: false, message: `${url} is already tracked` };
+
         const rdapQuery = await executeRdapQuery(url);
 
-        if (!rdapQuery.success) return { success: false, message: "Failed to retrieve RDAP data, maybe the domain is already expired or does not exist?" };
+        if (!rdapQuery.success) {
+            const message = rdapQuery.notFound
+                ? `No RDAP record for ${url}. The domain is not registered, or its TLD has no RDAP server.`
+                : "The RDAP lookup failed. Try again in a moment.";
+            return { success: false, message };
+        }
 
-        const domain = new Domain({
-            url,
-            lastChecked: new Date(),
-            expireTime: rdapQuery.expirationDate ? new Date(rdapQuery.expirationDate) : null,
-            registrationDate: rdapQuery.registrationDate ? new Date(rdapQuery.registrationDate) : null,
-            lastUpdate: rdapQuery.lastUpdate ? new Date(rdapQuery.lastUpdate) : null,
-            lastUpdatedInRdap: rdapQuery.lastUpdatedInRdap ? new Date(rdapQuery.lastUpdatedInRdap) : null,
-            nameservers: rdapQuery.nameservers || [],
-            notifications: true,
-        });
+        const domain = new Domain({ url, notifications: true });
+        applyRdapData(domain, rdapQuery);
         await domain.save();
         await logActivity(url, 'added', `${url} added to portfolio`);
-        return { success: true, message: "Domain added successfully" };
+        return { success: true, message: "Domain added successfully", url };
     } catch (error) {
+        if ((error as { code?: number })?.code === 11000) return { success: false, message: `${url} is already tracked` };
         logger.error("Error adding domain:", error);
         return { success: false, message: "Failed to add domain" };
     }

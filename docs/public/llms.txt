@@ -1,6 +1,6 @@
 # Supadomain
 
-> Supadomain is a self-hosted domain expiration monitor (Nuxt 4, MongoDB). It reads expiry dates over RDAP when a domain is added or refreshed, compares them with alert thresholds every hour and posts Slack alerts. This site also has a free in-browser domain expiry checker.
+> Supadomain is a self-hosted domain expiration monitor (Nuxt 4, MongoDB). It reads expiry dates over RDAP when a domain is added, once a day after that and on a manual refresh, compares them with alert thresholds every hour and posts Slack alerts. This site also has a free in-browser domain expiry checker.
 
 ## Docs
 

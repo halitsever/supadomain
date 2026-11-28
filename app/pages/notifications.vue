@@ -10,7 +10,7 @@ const slackError = ref("");
 const slackSaving = ref(false);
 const slackTesting = ref(false);
 
-const { data: slackSettings } = await useFetch<{ success: boolean; webhookUrl: string | null }>("/api/notification/slack");
+const { data: slackSettings, refresh: refreshSlackSettings } = await useFetch<{ success: boolean; webhookUrl: string | null }>("/api/notification/slack");
 if (slackSettings.value?.webhookUrl) slackWebhook.value = slackSettings.value.webhookUrl;
 
 const slackConfigured = computed(() => !!slackSettings.value?.webhookUrl);
@@ -21,29 +21,59 @@ function validateHttpsUrl(url: string) {
   return "";
 }
 
+type ApiResult = { success: boolean; message?: string };
+
+async function postWebhook(webhookUrl: string): Promise<ApiResult> {
+  try {
+    const result = await $fetch<ApiResult>("/api/notification/slack", { method: "POST", body: { webhookUrl } });
+    await refreshSlackSettings();
+    return result;
+  } catch {
+    return { success: false, message: "The server could not be reached" };
+  }
+}
+
 async function saveSlack() {
+  slackWebhook.value = slackWebhook.value.trim();
+  if (!slackWebhook.value) {
+    slackError.value = "Paste a webhook URL, or use Clear to remove the saved one";
+    return;
+  }
   slackError.value = validateHttpsUrl(slackWebhook.value);
   if (slackError.value) return;
+
   slackSaving.value = true;
-  const { data } = await useFetch("/api/notification/slack", { method: "POST", body: { webhookUrl: slackWebhook.value } });
+  const result = await postWebhook(slackWebhook.value);
   slackSaving.value = false;
-  if (data.value?.success) toast.success("Slack webhook saved");
-  else toast.error("Failed to save", { description: data.value?.message ?? "An error occurred" });
+
+  if (result.success) toast.success("Slack webhook saved");
+  else toast.error("Failed to save", { description: result.message ?? "An error occurred" });
 }
 
 async function clearSlack() {
+  const result = await postWebhook("");
+  if (!result.success) return toast.error("Failed to clear", { description: result.message ?? "An error occurred" });
+
   slackWebhook.value = "";
-  const { data } = await useFetch("/api/notification/slack", { method: "POST", body: { webhookUrl: "" } });
-  if (data.value?.success) toast.success("Slack webhook cleared");
+  slackError.value = "";
+  toast.success("Slack webhook cleared");
 }
 
 async function testSlack() {
   slackTesting.value = true;
-  const { data } = await useFetch("/api/notification/slack/test-notification", { method: "POST" });
-  slackTesting.value = false;
-  if (data.value?.success) toast.success("Test notification sent to Slack");
-  else toast.error("Failed to send test", { description: data.value?.message ?? "An error occurred" });
+  try {
+    const result = await $fetch<ApiResult>("/api/notification/slack/test-notification", { method: "POST" });
+    if (result.success) toast.success("Test notification sent to Slack");
+    else toast.error("Failed to send test", { description: result.message ?? "An error occurred" });
+  } catch {
+    toast.error("Failed to send test", { description: "The server could not be reached" });
+  } finally {
+    slackTesting.value = false;
+  }
 }
+
+// The test goes to the saved webhook, so unsaved input has to be saved first.
+const canTestSlack = computed(() => slackConfigured.value && slackWebhook.value.trim() === slackSettings.value?.webhookUrl);
 </script>
 
 <template>
@@ -77,7 +107,8 @@ async function testSlack() {
             variant="secondary"
             size="sm"
             class="cursor-pointer text-[12px] shrink-0"
-            :disabled="!slackWebhook || slackTesting"
+            :disabled="!canTestSlack || slackTesting"
+            :title="canTestSlack ? undefined : 'Save the webhook URL first'"
             @click="testSlack"
           >
             <Send class="size-3 mr-1.5" />Send test
@@ -104,7 +135,7 @@ async function testSlack() {
             <Button size="sm" class="cursor-pointer" :disabled="slackSaving" @click="saveSlack">
               {{ slackSaving ? "Saving…" : "Save" }}
             </Button>
-            <Button variant="secondary" size="sm" class="cursor-pointer" :disabled="!slackWebhook" @click="clearSlack">
+            <Button variant="secondary" size="sm" class="cursor-pointer" :disabled="!slackWebhook && !slackConfigured" @click="clearSlack">
               Clear
             </Button>
           </div>

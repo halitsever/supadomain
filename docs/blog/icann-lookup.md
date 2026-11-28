@@ -80,7 +80,7 @@ That is the registry half of what ICANN Lookup shows. For most .com names the re
 
 ## For your own domains
 
-A lookup answers once. [Supadomain](/), the self-hosted monitor this site documents, saves the expiry date from RDAP when you add a domain or press **Refresh**, and checks it against your alert thresholds every hour; the [monitoring guide](/guide/monitor-domain-expiration) explains the setup.
+A lookup answers once. [Supadomain](/), the self-hosted monitor this site documents, saves the expiry date from RDAP when you add a domain, reads it again once a day, and checks it against your alert thresholds every hour; the [monitoring guide](/guide/monitor-domain-expiration) explains the setup.
 
 ## FAQ
 

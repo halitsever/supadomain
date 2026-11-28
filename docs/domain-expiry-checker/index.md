@@ -58,7 +58,7 @@ Other TLDs that IANA lists are tried the same way. When one fails, the checker s
 
 ## Check once, or get told before it expires
 
-A lookup tells you the date today. To get a warning before the date, run a monitor. [Supadomain](/) is a free, open source domain expiry monitor you host yourself (Nuxt and MongoDB). It reads each domain's date over RDAP when you add it or press **Refresh**, compares the stored dates with your thresholds (30, 7 and 1 days by default) every hour, and posts one Slack alert when a domain crosses the largest threshold you ticked. The [Slack alerts guide](/guide/slack-alerts) shows exactly when it fires, and [getting started](/guide/getting-started) installs it.
+A lookup tells you the date today. To get a warning before the date, run a monitor. [Supadomain](/) is a free, open source domain expiry monitor you host yourself (Nuxt and MongoDB). It reads each domain's date over RDAP when you add it and once a day after that, compares the stored dates with your thresholds (30, 7 and 1 days by default) every hour, and posts a Slack alert each time a domain crosses one of them. The [Slack alerts guide](/guide/slack-alerts) shows exactly when it fires, and [getting started](/guide/getting-started) installs it.
 
 ## FAQ
 

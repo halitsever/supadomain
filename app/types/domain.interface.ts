@@ -5,7 +5,6 @@ export interface Domain {
     expireTime: string | null;
     notifications: boolean;
     notifyDaysBefore: number[];
-    lastUpdated: string | null;
     registrationDate: string | null;
     lastUpdate: string | null;
     lastUpdatedInRdap: string | null;

@@ -63,7 +63,7 @@ The renewal price is set by the registrar and is often higher than the first-yea
 1. Keep the registrant email current and make sure reminder emails are not filtered.
 2. Turn on auto-renew and keep the payment method valid.
 3. Look up the real expiry date from the registry, with the [domain expiry checker](/domain-expiry-checker/) or `curl` as in [how to check a domain expiry date](/blog/check-domain-expiry-date).
-4. For domains that matter to a team, add them to a monitor. [Supadomain](/) reads the date over RDAP when a domain is added and sends one Slack alert when the domain crosses the largest threshold you tick. It does not look the date up again on its own, so press **Refresh** after each renewal, as the [Slack alerts guide](/guide/slack-alerts#getting-a-second-alert) explains.
+4. For domains that matter to a team, add them to a monitor. [Supadomain](/) reads the date over RDAP when a domain is added and sends a Slack alert each time the domain crosses a threshold you tick. It looks the date up again once a day, so a renewal starts the alerts over, as the [Slack alerts guide](/guide/slack-alerts#after-a-renewal) explains.
 
 ## FAQ
 

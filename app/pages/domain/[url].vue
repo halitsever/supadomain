@@ -24,7 +24,7 @@ const { data, refresh } = await useFetch<{
     notifyDaysBefore: number[];
     nameservers: string[];
   };
-}>(`/api/domain/detail?url=${encodeURIComponent(url)}`);
+}>("/api/domain/detail", { query: { url } });
 
 const domain = computed(() => data.value?.domain);
 
@@ -32,17 +32,22 @@ const isRefreshing = ref(false);
 
 async function refreshDomain() {
   isRefreshing.value = true;
-  const { data: result } = await useFetch("/api/domain/refresh", {
-    method: "POST",
-    body: { url },
-  });
-  isRefreshing.value = false;
+  try {
+    const result = await $fetch<{ success: boolean; message?: string }>("/api/domain/refresh", {
+      method: "POST",
+      body: { url },
+    });
 
-  if (result.value?.success) {
-    toast.success("Domain refreshed");
-    await refresh();
-  } else {
-    toast.error("Failed to refresh domain", { description: result.value?.message });
+    if (result.success) {
+      toast.success("Domain refreshed");
+      await refresh();
+    } else {
+      toast.error("Failed to refresh domain", { description: result.message });
+    }
+  } catch {
+    toast.error("Failed to refresh domain", { description: "The server could not be reached" });
+  } finally {
+    isRefreshing.value = false;
   }
 }
 
@@ -67,7 +72,7 @@ function daysUntil(expireTime: string | null) {
       <NuxtLink to="/" class="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
         <ArrowLeft class="size-4" /> Back
       </NuxtLink>
-      <Button variant="secondary" size="sm" :disabled="isRefreshing" @click="refreshDomain" class="cursor-pointer">
+      <Button v-if="domain" variant="secondary" size="sm" :disabled="isRefreshing" @click="refreshDomain" class="cursor-pointer">
         <RefreshCw :class="['size-4 mr-1.5', isRefreshing && 'animate-spin']" />
         Refresh
       </Button>
@@ -104,7 +109,7 @@ function daysUntil(expireTime: string | null) {
             <span>{{ domain.notifications ? "Enabled" : "Disabled" }}</span>
 
             <span class="text-muted-foreground">Notify Before</span>
-            <span>{{ domain.notifyDaysBefore.join(", ") }} days</span>
+            <span>{{ domain.notifyDaysBefore.length ? `${domain.notifyDaysBefore.join(", ")} days` : "On expiry only" }}</span>
           </div>
         </CardContent>
       </Card>

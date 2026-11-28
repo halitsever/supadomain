@@ -68,7 +68,7 @@ Malwarebytes' advice for that campaign: if you entered card details, call your b
 
 ## Stop relying on email reminders
 
-Reminder emails are easy to fake and easy to miss. For domains a team depends on, keep the expiry dates somewhere you trust. [Supadomain](/) is a self-hosted monitor that reads the dates over RDAP and posts a Slack alert when a domain crosses the largest threshold you set. A scam email cannot change what it shows. [How to monitor domain expiration](/guide/monitor-domain-expiration) compares it with the other options.
+Reminder emails are easy to fake and easy to miss. For domains a team depends on, keep the expiry dates somewhere you trust. [Supadomain](/) is a self-hosted monitor that reads the dates over RDAP and posts a Slack alert when a domain crosses a threshold you set. A scam email cannot change what it shows. [How to monitor domain expiration](/guide/monitor-domain-expiration) compares it with the other options.
 
 ## FAQ
 

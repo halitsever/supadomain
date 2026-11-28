@@ -18,9 +18,9 @@ The test posts a message for `example.com` with the text "This is a test notific
 
 There is one webhook for the whole app, so every domain alerts into the same channel. To move alerts to another channel, save a different webhook URL.
 
-::: warning Connect Slack before a domain gets close
-The hourly job records an alert as sent even when no webhook is saved or Slack rejects the request. If that happened, press **Refresh** on the domain's page to arm it again.
-:::
+If no webhook is saved, or Slack rejects the request, the alert is not recorded as sent. The hourly job tries again on its next run, so an alert that was due goes out once a working webhook is saved. **Send test** reports the same failures, which makes it the quickest way to check a URL.
+
+To stop Slack alerts for the whole app, press **Clear** on the **Notifications** page.
 
 ## What the message looks like
 
@@ -40,7 +40,7 @@ Each alert is a Slack attachment with an orange bar. The title is a warning sign
 }
 ```
 
-The number is the whole days left, rounded down. A domain that crosses the 30 day line has a little under 30 days remaining, so its alert reads `29 days until expiration`. If the stored date is already in the past, the text is `N days since expiration`.
+The number is the whole days left, rounded down. A domain that crosses the 30 day line has a little under 30 days remaining, so its alert reads `29 days until expiration`. On the last day the text is `Expires today`. Once the date has passed it is `Expired today`, then `N days since expiration`.
 
 ## Choose thresholds per domain
 
@@ -53,31 +53,31 @@ Every new domain starts with alerts on and the thresholds 30, 7 and 1 days. To c
 
 ## When an alert fires
 
-The check runs every hour at minute 0. For each domain that has a stored expiry date and alerts switched on, it does this:
+The check runs every hour at minute 0. For each domain it does this:
 
-1. Works out the days left from the stored date.
-2. Sorts the domain's thresholds from largest to smallest and takes the first one the days left are at or below.
-3. Sends an alert if that threshold is not the one it alerted for last time, then remembers it in `lastNotifiedDays`.
+1. If the last RDAP lookup is more than 24 hours old, it reads the expiry date again. A renewal is picked up here without any action from you.
+2. Works out the days left from the stored date.
+3. Takes the smallest ticked threshold that the days left are at or below. A date in the past counts as a final stage of its own.
+4. Sends an alert if that stage is closer to expiry than the last one it alerted for, then remembers it in `lastNotifiedDays`.
 
-Because step 2 starts from the largest threshold, the match is always the largest threshold you ticked. Each domain therefore sends one alert, when it crosses that threshold:
+With the default thresholds a domain that is never renewed sends four alerts:
 
-| Thresholds ticked | Alert is sent when the domain has |
+| Alert | Sent when the domain has |
 | --- | --- |
-| 30, 7, 1 (default) | 30 days or fewer left |
-| 7, 1 | 7 days or fewer left |
-| 1 | 1 day or less left |
-| none | never |
+| First | 30 days or fewer left |
+| Second | 7 days or fewer left |
+| Third | 1 day or less left |
+| Last | expired |
 
-Pick the largest box by how much notice you want. If a single message a month ahead is easy to lose in your channel, untick 30 on the domains that matter and take the alert at 7 days.
+Untick a threshold to skip that alert. A domain with no thresholds ticked still sends the alert on expiry, as long as its **Notifications** switch is on.
 
-## Getting a second alert
+A domain added close to its expiry date skips the stages it has already passed. Add one with 5 days left and the first alert it sends is the 7 day one.
 
-Two actions arm a domain again:
+## After a renewal
 
-- **Refresh** on the domain's page clears `lastNotifiedDays`. If the domain is still inside a threshold, the next hourly run alerts once more.
-- **Unticking the threshold that already fired** makes the next largest one the match. Untick 30 after the first alert and the domain alerts again at 7 days.
+Renew the domain at its registrar and leave the rest to the app. The next daily lookup stores the new expiry date, clears `lastNotifiedDays` and writes a "new expiry date" line to the activity list. All thresholds apply again from the start.
 
-After a renewal, press **Refresh** as well. The hourly job never asks the registry for a new date, so without a refresh the app keeps counting down to the old one.
+To see the new date right away, press **Refresh** on the domain's page.
 
 ## Which domains never alert
 

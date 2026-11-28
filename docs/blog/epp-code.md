@@ -51,7 +51,7 @@ Anyone with the code and an unlocked domain can start a transfer. Treat it like 
 
 ## After the transfer
 
-A completed gTLD transfer usually adds one year to the registration. Look the domain up again to confirm the new expiry date and registrar. If you monitor it in [Supadomain](/), press **Refresh** on the domain so it reads the new expiry date from RDAP; Supadomain does not repeat lookups on its own.
+A completed gTLD transfer usually adds one year to the registration. Look the domain up again to confirm the new expiry date and registrar. If you monitor it in [Supadomain](/), the daily lookup reads the new expiry date from RDAP. Press **Refresh** on the domain to see it right away.
 
 ## FAQ
 

@@ -25,8 +25,11 @@ interface DomainDetail {
 
 const detailData = ref<{ success: boolean; domain: DomainDetail } | null>(null);
 const pending = ref(false);
+const confirmingRemove = ref(false);
 
 async function loadDomain(url: string) {
+  detailData.value = null;
+  confirmingRemove.value = false;
   pending.value = true;
   try {
     const result = await $fetch<{ success: boolean; domain: DomainDetail }>(
@@ -60,9 +63,21 @@ function daysLeftLabel() {
 
 async function removeDomain() {
   if (!domain.value) return;
-  await $fetch("/api/domain/remove", { method: "DELETE", body: { url: domain.value.url } });
-  toast.success(`Domain removed — ${domain.value.url}`);
-  emit("removed", domain.value.url);
+  if (!confirmingRemove.value) {
+    confirmingRemove.value = true;
+    return;
+  }
+
+  const url = domain.value.url;
+  try {
+    const result = await $fetch<{ success: boolean; message?: string }>("/api/domain/remove", { method: "DELETE", body: { url } });
+    if (!result.success) return toast.error("Failed to remove domain", { description: result.message });
+  } catch {
+    return toast.error("Failed to remove domain", { description: "The server could not be reached" });
+  }
+
+  toast.success(`Domain removed: ${url}`);
+  emit("removed", url);
   emit("close");
 }
 </script>
@@ -106,7 +121,7 @@ async function removeDomain() {
           class="cursor-pointer text-[12px] shrink-0"
           as-child
         >
-          <a :href="`https://lookup.icann.org/en/lookup?name=${domainUrl}`" target="_blank" rel="noopener">
+          <a :href="`https://lookup.icann.org/en/lookup?name=${encodeURIComponent(domainUrl ?? '')}`" target="_blank" rel="noopener">
             <ExternalLink class="size-3 mr-1.5" />
             WHOIS
           </a>
@@ -166,7 +181,7 @@ async function removeDomain() {
               class="cursor-pointer text-[12px] text-destructive hover:text-destructive hover:bg-destructive/10"
               @click="removeDomain"
             >
-              <Trash2 class="size-3 mr-1.5" />Remove
+              <Trash2 class="size-3 mr-1.5" />{{ confirmingRemove ? "Click again to remove" : "Remove" }}
             </Button>
           </div>
         </div>

@@ -1,5 +1,4 @@
 import logger from "~~/server/logger";
-import type { Domain as DomainType } from "../../types/domain.interface"
 import { Domain } from "~~/server/models/domain.schema";
 import checkAuth from "~~/server/auth-check";
 
@@ -13,8 +12,8 @@ export default defineEventHandler(async (event) => {
             lastChecked: item.lastChecked ?? null,
             expireTime: item.expireTime ?? null,
             notifications: item.notifications ?? false,
-            notifyDaysBefore: item.notifyDaysBefore ?? [30, 7, 1],
-        })) as DomainType[];
+            notifyDaysBefore: item.notifyDaysBefore ?? DEFAULT_NOTIFY_DAYS,
+        }));
     }
     catch (error) {
         logger.error('Error fetching domains:', error);

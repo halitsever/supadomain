@@ -69,18 +69,21 @@ From the reply, the app keeps four events and the nameserver names:
 
 The time of the lookup itself is stored as `lastChecked`.
 
-A lookup runs at two moments only:
+A lookup runs at three moments:
 
 - when you add a domain
 - when you press **Refresh** on the domain's page
+- during the hourly job, for every domain whose last lookup is more than 24 hours old
 
-The hourly job does not query RDAP. It compares the stored `expireTime` with the domain's alert thresholds. After you renew a domain, press **Refresh** so the app picks up the new date. A refresh also resets the alert state for that domain.
+So each domain is looked up about once a day, and a renewal shows up without a manual refresh. When a lookup returns a different expiry date, the alert state for that domain is reset.
+
+Requests carry a `User-Agent` header that names Supadomain. rdap.org answers `403` to clients that send none.
 
 ## When RDAP has no answer
 
 There is no fallback to a WHOIS expiry lookup. Two cases follow from that.
 
-**The lookup fails.** If rdap.org returns an error, the domain is not added and the app says "Failed to retrieve RDAP data, maybe the domain is already expired or does not exist?". This is what happens for a TLD whose registry has no RDAP service, for a name that is not registered and for a typo. On a refresh, a failed lookup leaves the stored data as it was.
+**The lookup fails.** If rdap.org answers `404`, the domain is not added and the app says "No RDAP record for example.tld. The domain is not registered, or its TLD has no RDAP server." This is what happens for a TLD whose registry has no RDAP service, for a name that is not registered and for a typo. Any other error, such as a timeout, gives "The RDAP lookup failed. Try again in a moment." On a refresh or a daily lookup, a failed request leaves the stored data as it was.
 
 **The reply has no `expiration` event.** Some registries answer over RDAP and leave the expiry date out. The domain is saved without a date, its status is **Unknown** and it gets no alerts.
 

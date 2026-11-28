@@ -80,8 +80,12 @@ const activityBg: Record<ActivityKind, string> = {
   removed: "bg-muted",
 };
 
+// Server and client render from the same clock, so "3m ago" hydrates without a mismatch.
+const now = useState("dashboard-now", () => Date.now());
+onMounted(() => { now.value = Date.now(); });
+
 function timeAgo(dateStr: string) {
-  const diff = Date.now() - new Date(dateStr).getTime();
+  const diff = now.value - new Date(dateStr).getTime();
   const m = Math.floor(diff / 60000);
   if (m < 1) return "just now";
   if (m < 60) return `${m}m ago`;
@@ -92,7 +96,15 @@ function timeAgo(dateStr: string) {
 
 const activePeriod = ref("30d");
 
-const { data: growthData } = await useFetch(() => `/api/domain/growth?period=${activePeriod.value}`);
+const { data: growthData, refresh: refreshGrowth } = await useFetch<{ success: boolean; points: { date: string; count: number }[] }>(
+  "/api/domain/growth",
+  { query: { period: activePeriod } }
+);
+
+async function refreshAll() {
+  await Promise.all([refresh(), refreshGrowth(), refreshNuxtData("sidebar-stats")]);
+  now.value = Date.now();
+}
 
 const W = 1100, H = 140, P = 8;
 
@@ -131,7 +143,7 @@ const chartLatestCount = computed(() => chartDates.value[chartDates.value.length
         <p class="text-[13.5px] text-muted-foreground mt-1">Overview of your domain portfolio.</p>
       </div>
       <div class="flex items-center gap-2">
-        <Button variant="secondary" size="sm" class="cursor-pointer" :disabled="pending" @click="refresh()">
+        <Button variant="secondary" size="sm" class="cursor-pointer" :disabled="pending" @click="refreshAll()">
           <RefreshCw :class="['size-3.5 mr-1.5', pending && 'animate-spin']" />
           Refresh
         </Button>
@@ -145,7 +157,7 @@ const chartLatestCount = computed(() => chartDates.value[chartDates.value.length
     </div>
 
     <!-- Stat grid -->
-    <div class="grid grid-cols-6 gap-3 mb-5">
+    <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 mb-5">
       <div
         v-for="card in statCards"
         :key="card.label"
@@ -166,7 +178,7 @@ const chartLatestCount = computed(() => chartDates.value[chartDates.value.length
     </div>
 
     <!-- Two-column row -->
-    <div class="grid gap-4 mb-4" style="grid-template-columns: 1.6fr 1fr">
+    <div class="grid gap-4 mb-4 lg:grid-cols-[1.6fr_1fr]">
       <!-- Expiring soonest -->
       <div class="bg-card border border-border rounded-xl overflow-hidden shadow-[0_1px_0_rgba(17,17,26,0.04)]">
         <div class="flex items-center justify-between px-4 py-3.5 border-b border-border">
@@ -191,7 +203,7 @@ const chartLatestCount = computed(() => chartDates.value[chartDates.value.length
             class="grid items-center gap-3.5 px-4 py-3 cursor-pointer transition-colors duration-120 hover:bg-muted/50"
             :class="i > 0 ? 'border-t border-border' : ''"
             style="grid-template-columns: 1fr auto auto auto"
-            @click="navigateTo('/')"
+            @click="navigateTo(`/domain/${encodeURIComponent(d.url)}`)"
           >
             <div class="flex items-center gap-2.5 min-w-0">
               <span

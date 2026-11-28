@@ -71,7 +71,7 @@ The registration date is not personal data and stays visible when the registrant
 
 ## Keeping the date on file
 
-[Supadomain](/), the self-hosted monitor this site documents, saves the `registration`, `expiration` and `last changed` events, plus the nameservers, when you add a domain or press **Refresh** (`server/rdap-query.ts`). It uses the expiry date for its hourly alert check; the registration date is kept with the domain's record in MongoDB. The [RDAP vs WHOIS guide](/guide/rdap-vs-whois) shows a full RDAP answer with every field.
+[Supadomain](/), the self-hosted monitor this site documents, saves the `registration`, `expiration` and `last changed` events, plus the nameservers, when you add a domain, and again on each daily lookup or **Refresh** (`server/rdap-query.ts`). It uses the expiry date for its hourly alert check; the registration date is kept with the domain's record in MongoDB. The [RDAP vs WHOIS guide](/guide/rdap-vs-whois) shows a full RDAP answer with every field.
 
 ## FAQ
 

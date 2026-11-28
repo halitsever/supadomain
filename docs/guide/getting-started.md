@@ -7,7 +7,7 @@ description: Install Supadomain, a self-hosted domain expiry checker, on Node.js
 
 Supadomain is a Nuxt app that you run yourself. This page takes you from a fresh clone to a first domain on the list. You need two things before you start:
 
-- Node.js 18 or later
+- Node.js 22 or later
 - A MongoDB instance that the server can reach
 
 ## Clone and install
@@ -68,8 +68,10 @@ For production, build once and run the output with Node:
 
 ```bash
 npm run build
-node .output/server/index.mjs
+node --env-file=.env .output/server/index.mjs
 ```
+
+The built server does not read `.env` by itself. The `--env-file` flag loads it. Under Docker or a process manager, set the same variables in the environment instead.
 
 The server listens on port 3000 unless you set `PORT`. Keep the process running. The hourly expiry check is a job inside the server process, so no check happens while it is stopped.
 

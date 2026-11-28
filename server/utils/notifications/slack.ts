@@ -1,15 +1,16 @@
-import logger from '~~/server/logger'
 import { Notifications } from '../../models/notifications'
 
-export async function sendSlackNotification(domainUrl: string, message: string) {
-    try {
-        const notificationSettings = await Notifications.findOne({ service: 'slack' }).exec()
+/** Posts to the saved webhook. Throws when Slack rejects the request. */
+export async function sendSlackNotification(domainUrl: string, message: string): Promise<'sent' | 'not-configured'> {
+    const notificationSettings = await Notifications.findOne({ service: 'slack' }).exec()
+    const webhookUrl = notificationSettings?.credentials
 
-        if (!notificationSettings?.credentials) return
+    if (!webhookUrl) return 'not-configured'
 
-        const webhookUrl = notificationSettings.credentials as string
-
-        const payload = {
+    await $fetch(webhookUrl, {
+        method: 'POST',
+        timeout: 10000,
+        body: {
             attachments: [
                 {
                     color: '#FFA500',
@@ -20,15 +21,7 @@ export async function sendSlackNotification(domainUrl: string, message: string) 
                 }
             ]
         }
+    })
 
-        await $fetch(webhookUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        })
-    }
-    catch (error) {
-        logger.error('Error sending Slack notification: ', error);
-        return { success: false, message: 'Failed to send Slack notification' };
-    }
+    return 'sent'
 }

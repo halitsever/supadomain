@@ -6,14 +6,20 @@ export default defineEventHandler(async (event) => {
     checkAuth(event);
 
     try {
-        const options = await readBody(event);
+        const { webhookUrl } = (await readBody(event)) ?? {};
 
-        if (!options.webhookUrl) return { success: false, message: 'Webhook URL is required' };
+        // An empty value removes the webhook.
+        if (!webhookUrl) {
+            await Notifications.deleteOne({ service: 'slack' }).exec();
+            return { success: true, message: 'Slack webhook removed' };
+        }
+
+        if (!isWebhookUrl(webhookUrl)) return { success: false, message: 'Webhook URL must be a valid https:// URL' };
 
         await Notifications.findOneAndUpdate(
             { service: 'slack' },
-            { credentials: options.webhookUrl },
-            { upsert: true, new: true }
+            { credentials: webhookUrl.trim() },
+            { upsert: true }
         ).exec();
 
         return { success: true, message: 'Slack notification settings saved successfully' };
@@ -23,4 +29,3 @@ export default defineEventHandler(async (event) => {
         return { success: false, message: 'Failed to save Slack notification settings' };
     }
 });
-

@@ -11,6 +11,15 @@ export default defineNuxtConfig({
     'nuxt-api-shield'
   ],
 
+  mongoose: {
+    uri: process.env.MONGODB_URI,
+  },
+
+  // The connection is opened by server/plugins/database.ts, so no URI is baked into the build.
+  runtimeConfig: {
+    mongoose: { uri: '' },
+  },
+
   nuxtApiShield: {
     limit: {
       max: 12,
@@ -31,8 +40,6 @@ export default defineNuxtConfig({
       trustedProxyHops: 1,
     },
   },
-
-
 
   shadcn: {
     /**

@@ -6,7 +6,9 @@ import { logActivity } from "~~/server/utils/activity";
 export default defineEventHandler(async (event) => {
     checkAuth(event);
 
-    const { url } = await readBody(event);
+    const { url } = (await readBody(event)) ?? {};
+    if (!url || typeof url !== "string") return { success: false, message: 'Domain URL is required' };
+
     try {
         const result = await Domain.findOneAndDelete({ url }).exec();
         if (result) {
