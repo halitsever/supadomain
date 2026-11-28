@@ -16,11 +16,11 @@ Create a Slack incoming webhook, find the webhook URL, test it with curl and rea
 
 How domain renewal works for .com and other gTLDs under ICANN rules: reminder emails, auto-renew, the grace period after expiry, redemption fees and deletion.
 
-## [Can you transfer a domain after it expires?](/blog/transfer-expired-domain)
+## [Transferring an expired domain: what ICANN's rules allow](/blog/transfer-expired-domain)
 
 Yes, in most cases. What ICANN's Transfer Policy says about expired domains, the 60-day locks, redemption, auth codes and the year a transfer adds.
 
-## ["The RDAP server redacted the value": what it means](/blog/rdap-server-redacted-the-value)
+## [Why an RDAP lookup says the value was redacted, and what stays visible](/blog/rdap-server-redacted-the-value)
 
 Why RDAP lookups hide registrant names, emails and phone numbers, how RFC 9537 marks redacted fields, and which data stays visible, including expiry dates.
 
@@ -32,11 +32,11 @@ Got an urgent email saying your services may be interrupted due to domain expiry
 
 Why RDAP lookups fail for .io, .co, .de, .eu and 170 other ccTLDs, how the IANA bootstrap file works, and what to use for those domains instead.
 
-## [How to check a domain expiry date without WHOIS](/blog/check-domain-expiry-date)
+## [Find a domain's expiry date with one RDAP command](/blog/check-domain-expiry-date)
 
 Check when a domain expires with an RDAP lookup: one curl command, a jq filter for the expiration event, days left in the shell, and the TLDs that hide it.
 
-## [Expired domain names: what happens after deletion](/blog/what-happens-to-expired-domains)
+## [The life of an expired domain name, from grace period to drop](/blog/what-happens-to-expired-domains)
 
 The life of an expired domain name: the registrar's grace period, redemption, pending delete, release, drop catching, and what a new owner can do with it.
 

@@ -2,13 +2,13 @@
 title: "Can You Transfer a Domain After It Expires?"
 titleTemplate: false
 description: "Yes, in most cases. What ICANN's Transfer Policy says about expired domains, the 60-day locks, redemption, auth codes and the year a transfer adds."
-headline: "Can you transfer a domain after it expires?"
+headline: "Transferring an expired domain: what ICANN's rules allow"
 date: "2026-11-28"
 keyword: "can i transfer a domain that expired 3 days ago"
 faq: [{"q": "Can I transfer a domain that is in redemption?", "a": "Not directly. The registry blocks transfers during the Redemption Grace Period, so the current registrar has to restore the domain first, usually for a redemption fee."}, {"q": "Does transferring an expired domain add a year?", "a": "A completed transfer adds one year. If the registry had already auto-renewed the name, as .com does, the losing registrar is credited for that renewal, so the result is usually one added year."}]
 ---
 
-# Can you transfer a domain after it expires?
+# Transferring an expired domain: what ICANN's rules allow
 
 <p class="post-meta">By <a href="https://halit.org">Halit Sever</a> · <time datetime="2026-11-28">28 November 2026</time></p>
 
@@ -86,6 +86,6 @@ A completed transfer adds one year. If the registry had already auto-renewed the
 ## Related posts
 
 - [Domain renewal: grace period, redemption and auto-renew](/blog/domain-renewal)
-- [How to check a domain expiry date without WHOIS](/blog/check-domain-expiry-date)
-- [Expired domain names: what happens after deletion](/blog/what-happens-to-expired-domains)
+- [Find a domain's expiry date with one RDAP command](/blog/check-domain-expiry-date)
+- [The life of an expired domain name, from grace period to drop](/blog/what-happens-to-expired-domains)
 - [All posts](/blog/)

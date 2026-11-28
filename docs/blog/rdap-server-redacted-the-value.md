@@ -2,13 +2,13 @@
 title: "\"The RDAP Server Redacted the Value\": What It Means"
 titleTemplate: false
 description: "Why RDAP lookups hide registrant names, emails and phone numbers, how RFC 9537 marks redacted fields, and which data stays visible, including expiry dates."
-headline: "\"The RDAP server redacted the value\": what it means"
+headline: "Why an RDAP lookup says the value was redacted, and what stays visible"
 date: "2026-11-28"
 keyword: "the rdap server redacted the value"
 faq: [{"q": "Is a redacted RDAP field an error?", "a": "No. The server hid the value on purpose, usually personal contact data, and the redacted array in the response says which field and how."}, {"q": "Does RDAP redact the expiry date?", "a": "No. Registration, expiration and last-changed dates, status codes, the registrar and nameservers were public in every response we checked."}]
 ---
 
-# "The RDAP server redacted the value": what it means
+# Why an RDAP lookup says the value was redacted, and what stays visible
 
 <p class="post-meta">By <a href="https://halit.org">Halit Sever</a> · <time datetime="2026-11-28">28 November 2026</time></p>
 
@@ -86,6 +86,6 @@ No. Registration, expiration and last-changed dates, status codes, the registrar
 
 - [Domain expiry scam emails: check the real date first](/blog/domain-expiry-scam-email)
 - ["No registry RDAP server was identified": what it means](/blog/no-registry-rdap-server)
-- [How to check a domain expiry date without WHOIS](/blog/check-domain-expiry-date)
+- [Find a domain's expiry date with one RDAP command](/blog/check-domain-expiry-date)
 - [ICANN Lookup: what the registration data tool shows](/blog/icann-lookup)
 - [All posts](/blog/)

@@ -91,5 +91,5 @@ Some tools show the date of a registrar's own record, a cached WHOIS copy or the
 
 - [ICANN Lookup: what the registration data tool shows](/blog/icann-lookup)
 - [A free WHOIS API: query RDAP as JSON](/blog/whois-api)
-- [How to check a domain expiry date without WHOIS](/blog/check-domain-expiry-date)
+- [Find a domain's expiry date with one RDAP command](/blog/check-domain-expiry-date)
 - [All posts](/blog/)

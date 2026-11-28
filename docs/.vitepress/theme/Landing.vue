@@ -185,7 +185,7 @@ const bands: { status: Status; rule: string }[] = [
         </g>
       </svg>
       <div class="sd-wrap sd-hero-inner">
-        <h1>Self-hosted domain expiration monitoring</h1>
+        <h1>Domain expiration monitoring you host yourself</h1>
         <p class="sd-lede">
           Supadomain keeps a ledger of your domains and the day each one runs out. It reads every expiry date over RDAP
           and checks the ledger once an hour. When a domain crosses its alert threshold, your Slack channel gets a

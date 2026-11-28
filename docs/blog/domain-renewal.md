@@ -77,7 +77,7 @@ Yes, but its length depends on the registrar. ICANN requires that you can still 
 
 ## Related posts
 
-- [Can you transfer a domain after it expires?](/blog/transfer-expired-domain)
-- [How to check a domain expiry date without WHOIS](/blog/check-domain-expiry-date)
-- [Expired domain names: what happens after deletion](/blog/what-happens-to-expired-domains)
+- [Transferring an expired domain: what ICANN's rules allow](/blog/transfer-expired-domain)
+- [Find a domain's expiry date with one RDAP command](/blog/check-domain-expiry-date)
+- [The life of an expired domain name, from grace period to drop](/blog/what-happens-to-expired-domains)
 - [All posts](/blog/)

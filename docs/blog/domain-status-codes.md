@@ -110,6 +110,6 @@ Client codes are set by the registrar and you can usually change them in your ac
 ## Related posts
 
 - [EPP code: what it is and how to get one](/blog/epp-code)
-- [Can you transfer a domain after it expires?](/blog/transfer-expired-domain)
+- [Transferring an expired domain: what ICANN's rules allow](/blog/transfer-expired-domain)
 - [ICANN Lookup: what the registration data tool shows](/blog/icann-lookup)
 - [All posts](/blog/)

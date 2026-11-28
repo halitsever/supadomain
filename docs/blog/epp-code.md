@@ -39,7 +39,7 @@ If the registrar does not answer, ICANN's five-day rule applies to gTLDs, and IC
 
 ## Why a transfer can still be refused
 
-A correct code is not the only check. The Transfer Policy lets or requires the losing registrar to deny a transfer in listed cases, including evidence of fraud, an unpaid previous registration period, a pending dispute proceeding (UDRP, URS or TDRP), a court order, an express objection by the holder, and the 60-day windows after a registration, a previous transfer or a change of registrant, unless the holder opted out of the last one. Expiry on its own is not a reason. [Can you transfer a domain after it expires?](/blog/transfer-expired-domain) goes through each case, including domains in redemption.
+A correct code is not the only check. The Transfer Policy lets or requires the losing registrar to deny a transfer in listed cases, including evidence of fraud, an unpaid previous registration period, a pending dispute proceeding (UDRP, URS or TDRP), a court order, an express objection by the holder, and the 60-day windows after a registration, a previous transfer or a change of registrant, unless the holder opted out of the last one. Expiry on its own is not a reason. [Transferring an expired domain: what ICANN's rules allow](/blog/transfer-expired-domain) goes through each case, including domains in redemption.
 
 ## Keep the code private
 
@@ -70,6 +70,6 @@ Not because of a payment dispute alone, under ICANN's Transfer Policy. It can de
 ## Related posts
 
 - [Domain status codes: clientTransferProhibited and the rest](/blog/domain-status-codes)
-- [Can you transfer a domain after it expires?](/blog/transfer-expired-domain)
+- [Transferring an expired domain: what ICANN's rules allow](/blog/transfer-expired-domain)
 - [ICANN Lookup: what the registration data tool shows](/blog/icann-lookup)
 - [All posts](/blog/)

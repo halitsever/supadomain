@@ -123,5 +123,5 @@ The name may not be registered, you may have queried a subdomain, or the TLD has
 
 - [ICANN Lookup: what the registration data tool shows](/blog/icann-lookup)
 - [Domain age: how to check when a domain was registered](/blog/domain-age)
-- [How to check a domain expiry date without WHOIS](/blog/check-domain-expiry-date)
+- [Find a domain's expiry date with one RDAP command](/blog/check-domain-expiry-date)
 - [All posts](/blog/)

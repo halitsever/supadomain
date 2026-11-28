@@ -100,5 +100,5 @@ Applicable law and ICANN policy let registrars withhold personal contact data. T
 
 - [Domain status codes: clientTransferProhibited and the rest](/blog/domain-status-codes)
 - [A free WHOIS API: query RDAP as JSON](/blog/whois-api)
-- ["The RDAP server redacted the value": what it means](/blog/rdap-server-redacted-the-value)
+- [Why an RDAP lookup says the value was redacted, and what stays visible](/blog/rdap-server-redacted-the-value)
 - [All posts](/blog/)
