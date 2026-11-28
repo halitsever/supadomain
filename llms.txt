@@ -7,6 +7,8 @@ Run it from a clone: `npm install`, copy `.env.example` to `.env`, set `MONGODB_
 ## Docs
 
 - [Website](https://projects.halit.org/supadomain/): project site with guides for installation, Slack alerts, RDAP and configuration
+- [Domain expiry checker](https://projects.halit.org/supadomain/domain-expiry-checker/): in-browser RDAP lookup of a domain's expiry date, registrar and status
+- [Blog](https://projects.halit.org/supadomain/blog/): articles on domain renewal, expired domain transfers, RDAP errors and redaction, Slack webhooks
 - [README](https://github.com/halitsever/supadomain/blob/main/README.md): features, prerequisites, installation, environment variables, Slack notification setup and how RDAP lookups work
 - [RDAP lookup](https://github.com/halitsever/supadomain/blob/main/server/rdap-query.ts): how expiry dates are fetched over RDAP
 - [Hourly check](https://github.com/halitsever/supadomain/blob/main/server/plugins/cron.ts): the hourly job that compares stored expiry dates with alert thresholds and sends Slack messages; it does not query RDAP
