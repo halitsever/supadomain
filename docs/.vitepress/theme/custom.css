@@ -188,3 +188,14 @@ body {
   outline: 2px solid var(--sd-blue);
   outline-offset: 2px;
 }
+
+/* Blog posts: byline and the opening paragraph. */
+.vp-doc .post-meta {
+  margin-top: -8px;
+  font-size: 14px;
+  color: var(--sd-mute);
+}
+.vp-doc .lead {
+  font-size: 1.12rem;
+  color: var(--vp-c-text-1);
+}

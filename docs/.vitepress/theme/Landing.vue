@@ -429,7 +429,9 @@ const bands: { status: Status; rule: string }[] = [
       </dl>
       <p class="sd-more">
         New to this? Read <a :href="withBase('/guide/monitor-domain-expiration')">how to monitor domain expiration</a> for
-        the manual options and where a self-hosted monitor fits.
+        the manual options and where a self-hosted monitor fits. To look up one domain now, use the
+        <a :href="withBase('/domain-expiry-checker/')">domain expiry checker</a>. The
+        <a :href="withBase('/blog/')">blog</a> covers renewal, transfers and RDAP errors.
       </p>
     </section>
   </div>

@@ -27,6 +27,50 @@ const jsonLd = {
   ],
 }
 
+const person = { '@type': 'Person', name: 'Halit Sever', url: 'https://halit.org' }
+
+/** BlogPosting and breadcrumbs for posts, FAQPage wherever the page shows an FAQ. */
+function pageJsonLd(fm: Record<string, any>, url: string, title: string, pageDescription: string) {
+  const graph: object[] = []
+  if (fm.date) {
+    graph.push(
+      {
+        '@type': 'BlogPosting',
+        headline: fm.headline ?? title,
+        description: pageDescription,
+        url,
+        mainEntityOfPage: url,
+        datePublished: fm.date,
+        dateModified: fm.date,
+        inLanguage: 'en',
+        image: `${site}og.png`,
+        keywords: fm.keyword,
+        author: person,
+        publisher: person,
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Supadomain', item: site },
+          { '@type': 'ListItem', position: 2, name: 'Blog', item: `${site}blog/` },
+          { '@type': 'ListItem', position: 3, name: fm.headline ?? title, item: url },
+        ],
+      },
+    )
+  }
+  if (fm.faq?.length) {
+    graph.push({
+      '@type': 'FAQPage',
+      mainEntity: fm.faq.map((f: { q: string; a: string }) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a.replace(/<[^>]+>|`|\*\*/g, '') },
+      })),
+    })
+  }
+  return { '@context': 'https://schema.org', '@graph': graph }
+}
+
 export default defineConfig({
   /** keeps the page hash map out of every page's HTML, which Semrush reads as a low text-to-HTML ratio */
   metaChunk: true,
@@ -61,15 +105,20 @@ export default defineConfig({
     const title = pageData.frontmatter.title ?? pageData.title
     const url = site + pageData.relativePath.replace(/(^|\/)index\.md$/, '$1').replace(/\.md$/, '')
     const pageDescription = pageData.frontmatter.description ?? description
-    pageData.frontmatter.head ??= []
-    pageData.frontmatter.head.push(
+    const fm = pageData.frontmatter
+    // Pages with titleTemplate: false already carry their full title.
+    const fullTitle = isHome ? `${homeTitle} | Supadomain` : fm.titleTemplate === false ? title : `${title} | Supadomain`
+    fm.head ??= []
+    fm.head.push(
       ['link', { rel: 'canonical', href: url }],
       ['meta', { property: 'og:url', content: url }],
-      ['meta', { property: 'og:title', content: isHome ? `${homeTitle} | Supadomain` : `${title} | Supadomain` }],
+      ['meta', { property: 'og:title', content: fullTitle }],
       ['meta', { property: 'og:description', content: pageDescription }],
-      ['meta', { name: 'twitter:title', content: isHome ? `${homeTitle} | Supadomain` : `${title} | Supadomain` }],
+      ['meta', { name: 'twitter:title', content: fullTitle }],
       ['meta', { name: 'twitter:description', content: pageDescription }],
     )
+    if (fm.date) fm.head.push(['meta', { property: 'article:published_time', content: fm.date }])
+    if (fm.date || fm.faq) fm.head.push(['script', { type: 'application/ld+json' }, JSON.stringify(pageJsonLd(fm, url, title, pageDescription))])
   },
 
   markdown: {
@@ -84,8 +133,31 @@ export default defineConfig({
       { text: 'Slack alerts', link: '/guide/slack-alerts' },
       { text: 'RDAP', link: '/guide/rdap-vs-whois' },
       { text: 'Configuration', link: '/guide/configuration' },
+      { text: 'Expiry checker', link: '/domain-expiry-checker/' },
+      { text: 'Blog', link: '/blog/', activeMatch: '/blog/' },
     ],
-    sidebar: [
+    sidebar: {
+      '/blog/': [
+        {
+          text: 'Blog',
+          items: [
+            { text: 'All posts', link: '/blog/' },
+            { text: 'Slack webhook URL', link: '/blog/slack-webhook-url' },
+            { text: 'Domain renewal', link: '/blog/domain-renewal' },
+            { text: 'Transfer an expired domain', link: '/blog/transfer-expired-domain' },
+            { text: 'What happens to expired domains', link: '/blog/what-happens-to-expired-domains' },
+            { text: 'Check a domain expiry date', link: '/blog/check-domain-expiry-date' },
+            { text: 'RDAP redacted values', link: '/blog/rdap-server-redacted-the-value' },
+            { text: 'No registry RDAP server', link: '/blog/no-registry-rdap-server' },
+            { text: 'Domain expiry scam emails', link: '/blog/domain-expiry-scam-email' },
+          ],
+        },
+        {
+          text: 'Tools',
+          items: [{ text: 'Domain expiry checker', link: '/domain-expiry-checker/' }],
+        },
+      ],
+      '/guide/': [
       {
         text: 'Guides',
         items: [
@@ -101,7 +173,15 @@ export default defineConfig({
           { text: 'Configuration', link: '/guide/configuration' },
         ],
       },
+      {
+        text: 'More',
+        items: [
+          { text: 'Domain expiry checker', link: '/domain-expiry-checker/' },
+          { text: 'Blog', link: '/blog/' },
+        ],
+      },
     ],
+    },
     socialLinks: [{ icon: 'github', link: repo }],
     outline: { level: [2, 3], label: 'On this page' },
     search: { provider: 'local' },
