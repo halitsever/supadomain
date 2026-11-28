@@ -2,13 +2,13 @@
 title: "How to Check a Domain Expiry Date Without WHOIS"
 titleTemplate: false
 description: "Check when a domain expires with an RDAP lookup: one curl command, a jq filter for the expiration event, days left in the shell, and the TLDs that hide it."
-headline: "How to check a domain expiry date without WHOIS"
+headline: "Find a domain's expiry date with one RDAP command"
 date: "2026-11-28"
 keyword: "check expiry date of domain"
 faq: [{"q": "How do I check a domain's expiry date?", "a": "Look it up over RDAP: run curl -sL https://rdap.org/domain/example.com and read the event with eventAction expiration, or use an in-browser RDAP checker."}, {"q": "Why does my domain show no expiry date?", "a": "Its TLD may have no RDAP server, its registry may not publish the date (.nl, .au, .pl and .br did not in our tests), or the name is not registered."}]
 ---
 
-# How to check a domain expiry date without WHOIS
+# Find a domain's expiry date with one RDAP command
 
 <p class="post-meta">By <a href="https://halit.org">Halit Sever</a> · <time datetime="2026-11-28">28 November 2026</time></p>
 
@@ -33,7 +33,7 @@ On 28 November 2026 this printed:
 
 [rdap.org](https://about.rdap.org/) is a public redirector. It looks up the registry's server in IANA's bootstrap file and redirects you there; `-L` tells curl to follow. The date is ISO 8601 in UTC.
 
-The `events` array also holds the registration date (`registration`), the last change (`last changed`) and the time the registry's data was refreshed (`last update of RDAP database`). The [RDAP vs WHOIS guide](/guide/rdap-vs-whois#what-an-rdap-lookup-returns) shows a full example.
+The `events` array also holds the registration date (`registration`, the basis of [domain age](/blog/domain-age)), the last change (`last changed`) and the time the registry's data was refreshed (`last update of RDAP database`). The [RDAP vs WHOIS guide](/guide/rdap-vs-whois#what-an-rdap-lookup-returns) shows a full example.
 
 ## Days left
 
@@ -89,6 +89,6 @@ Its TLD may have no RDAP server, its registry may not publish the date (.nl, .au
 ## Related posts
 
 - [Domain renewal: grace period, redemption and auto-renew](/blog/domain-renewal)
-- ["The RDAP server redacted the value": what it means](/blog/rdap-server-redacted-the-value)
+- [Why an RDAP lookup says the value was redacted, and what stays visible](/blog/rdap-server-redacted-the-value)
 - ["No registry RDAP server was identified": what it means](/blog/no-registry-rdap-server)
 - [All posts](/blog/)

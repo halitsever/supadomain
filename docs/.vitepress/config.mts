@@ -150,6 +150,12 @@ export default defineConfig({
             { text: 'RDAP redacted values', link: '/blog/rdap-server-redacted-the-value' },
             { text: 'No registry RDAP server', link: '/blog/no-registry-rdap-server' },
             { text: 'Domain expiry scam emails', link: '/blog/domain-expiry-scam-email' },
+            { text: 'ICANN Lookup', link: '/blog/icann-lookup' },
+            { text: 'Domain age', link: '/blog/domain-age' },
+            { text: 'Free WHOIS API (RDAP)', link: '/blog/whois-api' },
+            { text: 'Domain status codes', link: '/blog/domain-status-codes' },
+            { text: 'EPP code', link: '/blog/epp-code' },
+            { text: 'MongoDB in Docker', link: '/blog/mongodb-docker' },
           ],
         },
         {

@@ -3,7 +3,7 @@ title: How to monitor domain expiration
 description: How to monitor domain expiration, from registrar reminders and manual RDAP checks to a self-hosted domain monitoring tool that alerts your team in Slack.
 ---
 
-# How to monitor domain expiration
+# Monitor domain expiration with RDAP lookups and Slack alerts
 
 A domain is a lease with an end date. When the date passes, the website and the email behind the name stop working, and once the grace periods run out someone else can register it. Monitoring domain expiration means making sure a person hears about that date while there is still time to renew.
 

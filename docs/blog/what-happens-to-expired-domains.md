@@ -2,13 +2,13 @@
 title: "Expired Domain Names: What Happens After Deletion"
 titleTemplate: false
 description: "The life of an expired domain name: the registrar's grace period, redemption, pending delete, release, drop catching, and what a new owner can do with it."
-headline: "Expired domain names: what happens after deletion"
+headline: "The life of an expired domain name, from grace period to drop"
 date: "2026-11-28"
 keyword: "expired domain names"
 faq: [{"q": "When do expired domain names become available?", "a": "For gTLDs such as .com, after the registrar deletes the domain, 30 days of redemption and 5 days of pending delete. The time at the registrar before deletion varies by registrar; for .com it usually falls inside the registry's 45-day auto-renew grace period."}, {"q": "Can I get my expired domain back?", "a": "Yes, until the redemption period ends: renew it at the registrar before deletion, or restore it for a redemption fee during the 30-day redemption period."}]
 ---
 
-# Expired domain names: what happens after deletion
+# The life of an expired domain name, from grace period to drop
 
 <p class="post-meta">By <a href="https://halit.org">Halit Sever</a> · <time datetime="2026-11-28">28 November 2026</time></p>
 
@@ -72,6 +72,6 @@ Yes, until the redemption period ends: renew it at the registrar before deletion
 ## Related posts
 
 - [Domain renewal: grace period, redemption and auto-renew](/blog/domain-renewal)
-- [Can you transfer a domain after it expires?](/blog/transfer-expired-domain)
+- [Transferring an expired domain: what ICANN's rules allow](/blog/transfer-expired-domain)
 - [Domain expiry scam emails: check the real date first](/blog/domain-expiry-scam-email)
 - [All posts](/blog/)

@@ -1,7 +1,7 @@
 ---
 title: "Domain Expiry and RDAP Guides | Supadomain Blog"
 titleTemplate: false
-description: "Guides on domain expiry: renewal grace periods, transfers after expiry, RDAP errors and redaction, Slack webhooks and how to check an expiry date yourself."
+description: "Guides on domain expiry and RDAP: renewal and transfers, status codes, EPP codes, domain age, ICANN Lookup, Slack webhooks and MongoDB in Docker."
 ---
 
 # Supadomain blog
@@ -16,11 +16,11 @@ Create a Slack incoming webhook, find the webhook URL, test it with curl and rea
 
 How domain renewal works for .com and other gTLDs under ICANN rules: reminder emails, auto-renew, the grace period after expiry, redemption fees and deletion.
 
-## [Can you transfer a domain after it expires?](/blog/transfer-expired-domain)
+## [Transferring an expired domain: what ICANN's rules allow](/blog/transfer-expired-domain)
 
 Yes, in most cases. What ICANN's Transfer Policy says about expired domains, the 60-day locks, redemption, auth codes and the year a transfer adds.
 
-## ["The RDAP server redacted the value": what it means](/blog/rdap-server-redacted-the-value)
+## [Why an RDAP lookup says the value was redacted, and what stays visible](/blog/rdap-server-redacted-the-value)
 
 Why RDAP lookups hide registrant names, emails and phone numbers, how RFC 9537 marks redacted fields, and which data stays visible, including expiry dates.
 
@@ -32,10 +32,34 @@ Got an urgent email saying your services may be interrupted due to domain expiry
 
 Why RDAP lookups fail for .io, .co, .de, .eu and 170 other ccTLDs, how the IANA bootstrap file works, and what to use for those domains instead.
 
-## [How to check a domain expiry date without WHOIS](/blog/check-domain-expiry-date)
+## [Find a domain's expiry date with one RDAP command](/blog/check-domain-expiry-date)
 
 Check when a domain expires with an RDAP lookup: one curl command, a jq filter for the expiration event, days left in the shell, and the TLDs that hide it.
 
-## [Expired domain names: what happens after deletion](/blog/what-happens-to-expired-domains)
+## [The life of an expired domain name, from grace period to drop](/blog/what-happens-to-expired-domains)
 
 The life of an expired domain name: the registrar's grace period, redemption, pending delete, release, drop catching, and what a new owner can do with it.
+
+## [ICANN Lookup: what ICANN's registration data tool shows and where it gets it](/blog/icann-lookup)
+
+ICANN Lookup is ICANN's RDAP client for domain data: what its results show, where each field comes from, why contacts are hidden, and the same query in curl.
+
+## [Domain age: how to check when a domain was registered](/blog/domain-age)
+
+Domain age is the time since a domain was registered. Read the registration date from RDAP with one command, and learn why transfers keep it but drops reset it.
+
+## [A free WHOIS API: query RDAP and get JSON back](/blog/whois-api)
+
+Use RDAP as a free WHOIS API: one HTTPS request returns JSON with expiry date, status, registrar and nameservers. Examples in curl and Node.js, plus the limits.
+
+## [Domain status codes: clientTransferProhibited and the rest, explained](/blog/domain-status-codes)
+
+What clientTransferProhibited, serverHold, redemptionPeriod and other domain status codes mean, who sets them, how RDAP shows them and when to act.
+
+## [EPP code: the domain transfer code explained](/blog/epp-code)
+
+An EPP code, or auth code, proves you hold a domain when you move it to a new registrar. Where to find it, ICANN's five-day rule and the lock to lift first.
+
+## [Run MongoDB in Docker for a self-hosted app](/blog/mongodb-docker)
+
+Run MongoDB in Docker for a self-hosted app: a compose file with a root user, a named volume and a healthcheck, the authSource connection string and backups.

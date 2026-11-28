@@ -3,7 +3,7 @@ title: Install a self-hosted domain expiry checker
 description: Install Supadomain, a self-hosted domain expiry checker, on Node.js and MongoDB. Set the environment variables, sign in and add your first domain.
 ---
 
-# Install a self-hosted domain expiry checker
+# Getting started: run Supadomain on Node.js and MongoDB
 
 Supadomain is a Nuxt app that you run yourself. This page takes you from a fresh clone to a first domain on the list. You need two things before you start:
 

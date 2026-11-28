@@ -104,5 +104,5 @@ Yes. Anyone who has it can post into the channel. Slack looks for leaked webhook
 
 - [Domain renewal: grace period, redemption and auto-renew](/blog/domain-renewal)
 - [Domain expiry scam emails: check the real date first](/blog/domain-expiry-scam-email)
-- [How to check a domain expiry date without WHOIS](/blog/check-domain-expiry-date)
+- [Find a domain's expiry date with one RDAP command](/blog/check-domain-expiry-date)
 - [All posts](/blog/)

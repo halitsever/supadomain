@@ -83,6 +83,6 @@ Log in to your registrar's website directly, not through a link in an email, and
 ## Related posts
 
 - [Domain renewal: grace period, redemption and auto-renew](/blog/domain-renewal)
-- ["The RDAP server redacted the value": what it means](/blog/rdap-server-redacted-the-value)
-- [How to check a domain expiry date without WHOIS](/blog/check-domain-expiry-date)
+- [Why an RDAP lookup says the value was redacted, and what stays visible](/blog/rdap-server-redacted-the-value)
+- [Find a domain's expiry date with one RDAP command](/blog/check-domain-expiry-date)
 - [All posts](/blog/)

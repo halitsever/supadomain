@@ -3,7 +3,7 @@ title: Domain expiration alerts in Slack
 description: Set up a domain expiration alert in Slack with Supadomain. Connect an incoming webhook, pick thresholds per domain and see when the expiry notification fires.
 ---
 
-# Domain expiration alerts in Slack
+# Sending domain expiry alerts to a Slack channel
 
 Supadomain sends its domain expiry notifications to one Slack incoming webhook. This guide connects the webhook, shows the message you will get and explains the rule that decides when it is sent.
 

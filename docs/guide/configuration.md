@@ -3,7 +3,7 @@ title: Configuration reference
 description: Every Supadomain setting in one place. Environment variables, per-domain alert thresholds, the Slack webhook, fixed limits and the data stored in MongoDB.
 ---
 
-# Configuration reference
+# Every Supadomain setting in one place
 
 Supadomain has three layers of settings. Environment variables are read when the server starts. The Slack webhook and the per-domain options are set in the app and stored in MongoDB. A few limits are fixed in the code and listed here so you know what to expect.
 

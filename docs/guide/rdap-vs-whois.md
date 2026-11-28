@@ -3,7 +3,7 @@ title: RDAP vs WHOIS for domain expiry dates
 description: RDAP vs WHOIS explained. What RDAP is, how an RDAP lookup returns a domain's expiry date as JSON, and how Supadomain reads it without a WHOIS fallback.
 ---
 
-# RDAP vs WHOIS for domain expiry dates
+# RDAP or WHOIS: which one to read expiry dates from
 
 Supadomain reads every expiry date over RDAP and never over WHOIS. This page explains the two protocols, shows what an RDAP lookup returns and lists what the app does when a lookup comes back short.
 
